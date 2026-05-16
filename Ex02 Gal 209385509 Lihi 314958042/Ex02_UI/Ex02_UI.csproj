@@ -44,5 +44,11 @@
       <HintPath>..\..\..\..\..\..\..\..\..\Temp\Ex02.ConsoleUtils.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ex02_Logic\Ex02_Logic.csproj">
+      <Project>{69ef956a-2657-4567-8f14-3d205f2a0c1c}</Project>
+      <Name>Ex02_Logic</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
