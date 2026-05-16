@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Ex02_UI
 {
-    internal class Program
+    public class Program
     {
+        public static void Main()
+        {
+            new ConsoleInterface.RunGame();
+        }
     }
 }
