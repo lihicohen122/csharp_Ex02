@@ -107,6 +107,7 @@ namespace Ex02_UI
                     Console.Write(" | ");
                 }
             }
+            Console.WriteLine();
             // Console.WriteLine($"Player 1 score: {player1Score} | Player 2 score: {player2Score}"); // NEEDS FIXING!!!
         }
 
@@ -163,14 +164,17 @@ namespace Ex02_UI
         {
             bool isValidInput = false;
             bool playAnotherRound = false;
+
             while(!isValidInput)
             {
                 Console.WriteLine("Would you like to play another round? (yes/no): ");
                 string userInput = Console.ReadLine();
+
                 if(userInput == "yes")
                 {
                     playAnotherRound = true;
                     isValidInput = true;
+                    m_Game.ClearGameBoard();
                 }
                 else if(userInput == "no")
                 {

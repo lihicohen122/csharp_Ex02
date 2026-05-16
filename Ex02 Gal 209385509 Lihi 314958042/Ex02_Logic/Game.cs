@@ -209,6 +209,10 @@ namespace Ex02_Logic
             return playersScore;
         }
 
+        public void ClearGameBoard()
+        {
+            m_Board.ClearBoard();
+        }
 
     }
 }
