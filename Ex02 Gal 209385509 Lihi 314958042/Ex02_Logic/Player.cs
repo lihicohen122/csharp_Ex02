@@ -9,17 +9,29 @@ namespace Ex02_Logic
 {
     internal class Player
     {
-        private int Score { get; }
-        private eCellSign Sign { get;}
-        private bool IsComputer { get;}
-        private string Team { get;}
+        private int Score;
+        private eCellSign m_Sign;
+        private bool m_IsComputer;
+        private string Team;
 
-        public Player(eCellSign i_Sign, bool i_IsComputer, string i_Team)
+        public Player(eCellSign i_Sign, bool i_IsComputer)
         {
-            Sign = i_Sign;
-            IsComputer = i_IsComputer;
-            Team = i_Team;
+            m_Sign = i_Sign;
+            m_IsComputer = i_IsComputer;
             Score = 0;
         }
+
+        public eCellSign GetPlayerSign()
+        {
+            return m_Sign;
+        }
+
+        public bool IsPlayerComputer()
+        {
+            return m_IsComputer;
+        }
+
+
+
     }
 }
