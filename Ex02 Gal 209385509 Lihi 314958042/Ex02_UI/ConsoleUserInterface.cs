@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ex02_Logic;
+using Ex02_Logic.Enums;
 
 namespace Ex02_UI
 {
     public class ConsoleUserInterface
     {
-
         private Game m_Game;
 
         private static void getInitialSettings(out int o_BoardSize, out bool o_IsVsComputer)
@@ -52,7 +52,7 @@ namespace Ex02_UI
 
         private void printBoard()
         {
-            int boardSize = m_Game.getBoardSize();
+            int boardSize = m_Game.GetCurrentGameBoardSize();
             
             Ex02.ConsoleUtils.Screen.Clear();
             Console.Write("  ");
@@ -95,19 +95,19 @@ namespace Ex02_UI
 
         private void printScore()
         {
-            int []allPlayersScores = m_Game.getAllPlayersScore();
+            int []allPlayersScores = m_Game.GetAllPlayersScore();
             
             for(int i = 0; i < allPlayersScores.Length; ++i)
             {
                 int playerScore = allPlayersScores[i];
                 
                 Console.Write($"Player {i + 1} score: {playerScore}");
-                if (i < allPlayersScores.Length - 1)
+                if(i < allPlayersScores.Length - 1)
                 {
                     Console.Write(" | ");
                 }
             }
-            Console.WriteLine($"Player 1 score: {player1Score} | Player 2 score: {player2Score}"); // NEEDS FIXING!!!
+            // Console.WriteLine($"Player 1 score: {player1Score} | Player 2 score: {player2Score}"); // NEEDS FIXING!!!
         }
 
         private void getPlayerMode(out int o_Row, out int o_Col, out bool o_Quit)
@@ -129,7 +129,7 @@ namespace Ex02_UI
             {
                 printBoard();
 
-                if (m_Game.IsComputerTurn())
+                if (m_Game.IsCurrentPlayerComputer())
                 {
                     m_Game.PlayComputerTurn();
                 }
@@ -147,7 +147,7 @@ namespace Ex02_UI
                     }
                 }
                 
-                isGameOver = m_Game.GameState != eGameState.Playing;
+                isGameOver = m_Game.GetGameState() != eGameState.Playing;
             }
             
             printBoard();
@@ -164,13 +164,13 @@ namespace Ex02_UI
         {
             bool playAnotherRound = true;
 
+            m_Game.StartPlaying();
             while(playAnotherRound)
             {
                 playSingleGame();
                 handleEndOfGame();
-                playAnotherRound = m_Game.GameState != eGameState.Quit;
+                playAnotherRound = m_Game.GetGameState() != eGameState.Quit;
             }
-
         }
     }
 }
