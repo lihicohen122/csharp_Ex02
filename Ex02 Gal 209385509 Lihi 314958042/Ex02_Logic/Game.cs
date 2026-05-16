@@ -7,7 +7,7 @@ using Ex02_Logic.Enums;
 
 namespace Ex02_Logic
 {
-    internal class Game
+    public class Game
     {
         private Board m_Board;
         private Player m_Player1;
