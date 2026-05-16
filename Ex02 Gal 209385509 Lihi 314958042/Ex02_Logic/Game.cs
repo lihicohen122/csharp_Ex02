@@ -13,7 +13,7 @@ namespace Ex02_Logic
         private Player m_Player1;
         private Player m_Player2;
         private Player m_CurrentPlayer;
-        private eGameState m_GameState { get; }
+        private eGameState m_GameState { get; set; }
 
         public Game(int i_BoardSize, bool i_IsPlayerComputer)
         {
@@ -22,6 +22,11 @@ namespace Ex02_Logic
             m_Player2 = new Player(eCellSign.Circle, i_IsPlayerComputer);
             m_CurrentPlayer = m_Player1;
             m_GameState = eGameState.NotInitialized;
+        }
+
+        public void StartPlaying()
+        {
+            m_GameState = eGameState.Playing;
         }
 
         public eCellSign GetCurrentPlayerSign()
@@ -44,45 +49,75 @@ namespace Ex02_Logic
             return m_Board.UpdateCell(i_Row, i_Col, m_CurrentPlayer.GetPlayerSign());
         }
 
-        public Player PlayUserTurn(int i_Row, int i_Col)
+        public void PlayUserTurn(int i_Row, int i_Col)
         {
             bool isTurnPlayed = updateBoard(i_Row, i_Col);
 
             if(isTurnPlayed)
             {
-                m_CurrentPlayer = m_CurrentPlayer == m_Player1 ? m_Player1 : m_Player2;
+                checkAndHandleEndOfTurn(i_Row, i_Col);
             }
-
-            return m_CurrentPlayer; 
         }
 
-        public Player PlayComputerTurn()
+        public void PlayComputerTurn()
         {
             bool isTurnPlayed = false;
+            int row = 0;
+            int col = 0;
 
-            while(!isTurnPlayed)
+            while (!isTurnPlayed)
             {
-                int row = new Random().Next(0, (m_Board.GetBoardSize() - 1));
-                int col = new Random().Next(0, (m_Board.GetBoardSize() - 1));
+                row = new Random().Next(0, (m_Board.GetBoardSize() - 1));
+                col = new Random().Next(0, (m_Board.GetBoardSize() - 1));
                 isTurnPlayed = updateBoard(row, col);
             }
 
-            m_CurrentPlayer = m_CurrentPlayer == m_Player1 ? m_Player1 : m_Player2;
-            return m_CurrentPlayer;
-
+            checkAndHandleEndOfTurn(row, col);
         }
 
-        public bool CheckIfWinner()
+        private void checkAndHandleEndOfTurn(int i_Row, int i_Col)
         {
-            return checkRowSequence(0, m_CurrentPlayer.GetPlayerSign()) ||
-                   checkColumnSequence(0, m_CurrentPlayer.GetPlayerSign()) ||
-                   checkMainDiagonalSequence(m_CurrentPlayer.GetPlayerSign()) ||
-                   checkAntiDiagonalSequence(m_CurrentPlayer.GetPlayerSign());
+            if (CheckIfWinner(i_Row, i_Col))
+            {
+                if (m_CurrentPlayer == m_Player1)
+                {
+                    m_GameState = eGameState.Player2Won;
+                    m_Player2.AddScore();
+                }
+                else
+                {
+                    m_GameState = eGameState.Player1Won;
+                    m_Player1.AddScore();
+                }
+            }
+            else if (CheckIfTie(i_Row, i_Col))
+            {
+                m_GameState = eGameState.Tie;
+            }
+            else
+            {
+                switchPlayer();
+            }
         }
 
-        public bool CheckIfTie()
+        private void switchPlayer()
         {
-            return m_Board.IsBoardFull() && !CheckIfWinner();
+            m_CurrentPlayer = m_CurrentPlayer == m_Player1 ? m_Player2 : m_Player1; 
+        }
+
+        public bool CheckIfWinner(int i_Row, int i_Col)
+        {
+            eCellSign currentSign = m_CurrentPlayer.GetPlayerSign();
+
+            return checkRowSequence(i_Row, currentSign) ||
+                   checkColumnSequence(i_Col, currentSign) ||
+                   checkMainDiagonalSequence(currentSign) ||
+                   checkSecondaryDiagonalSequence(currentSign);
+        }
+
+        public bool CheckIfTie(int i_Row, int i_Col)
+        {
+            return m_Board.IsBoardFull() && !CheckIfWinner(i_Row, i_Col);
         }
 
         private bool checkRowSequence(int i_Row, eCellSign i_Sign)
@@ -133,20 +168,20 @@ namespace Ex02_Logic
             return isMainDiagonalSequence;
         }
 
-        private bool checkAntiDiagonalSequence(eCellSign i_Sign)
+        private bool checkSecondaryDiagonalSequence(eCellSign i_Sign)
         {
-            bool isAntiDiagonalSequence= true;
+            bool isSecondaryDiagonalSequence = true;
 
             for(int i = 0; i < m_Board.GetBoardSize(); i++)
             {
                 if(m_Board.GetMatrix()[i][m_Board.GetBoardSize() - 1 - i] != i_Sign)
                 {
-                    isAntiDiagonalSequence = false;
+                    isSecondaryDiagonalSequence = false;
                     break;
                 }
             }
 
-            return isAntiDiagonalSequence;
+            return isSecondaryDiagonalSequence;
         }
 
 

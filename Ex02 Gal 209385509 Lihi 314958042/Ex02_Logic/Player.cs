@@ -9,16 +9,15 @@ namespace Ex02_Logic
 {
     internal class Player
     {
-        private int Score;
+        private int m_Score;
         private eCellSign m_Sign;
         private bool m_IsComputer;
-        private string Team;
 
         public Player(eCellSign i_Sign, bool i_IsComputer)
         {
             m_Sign = i_Sign;
             m_IsComputer = i_IsComputer;
-            Score = 0;
+            m_Score = 0;
         }
 
         public eCellSign GetPlayerSign()
@@ -31,6 +30,10 @@ namespace Ex02_Logic
             return m_IsComputer;
         }
 
+        public int AddScore()
+        {
+            return ++m_Score;
+        }
 
 
     }

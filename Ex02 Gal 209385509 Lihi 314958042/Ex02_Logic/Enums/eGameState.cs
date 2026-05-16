@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ex02_Logic.Enums
 {
-    internal enum eGameState
+    public enum eGameState
     {
         NotInitialized, Playing, Player1Won, Player2Won, Tie, Quit
     }

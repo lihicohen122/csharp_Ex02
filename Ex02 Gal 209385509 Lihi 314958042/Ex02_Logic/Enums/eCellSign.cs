@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ex02_Logic.Enums
 {
-    internal enum eCellSign
+    public enum eCellSign
     {
         Empty, Cross, Circle
     }
