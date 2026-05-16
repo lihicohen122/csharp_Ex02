@@ -54,6 +54,11 @@ namespace Ex02_Logic
             return m_Board.GetCell(i_Row, i_Col);
         }
 
+        public int GetCurrentGameBoardSize()
+        {
+            return m_Board.GetBoardSize();
+        }
+
         private bool updateBoard(int i_Row, int i_Col)
         {
             return m_Board.UpdateCell(i_Row, i_Col, m_CurrentPlayer.GetPlayerSign());
