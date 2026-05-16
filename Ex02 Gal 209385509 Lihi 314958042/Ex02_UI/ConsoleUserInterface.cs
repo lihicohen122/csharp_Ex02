@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using Ex02_Logic;
 using Ex02_Logic.Enums;
 
@@ -238,7 +233,12 @@ namespace Ex02_UI
             while(playAnotherRound)
             {
                 playSingleGame();
-                handleEndOfGame();
+                bool doesUserWantToEndGame = handleEndOfGame();
+                
+                if(!doesUserWantToEndGame)
+                {
+                    m_Game.QuitGame();
+                }
                 playAnotherRound = m_Game.GetGameState() != eGameState.Quit;
             }
         }
