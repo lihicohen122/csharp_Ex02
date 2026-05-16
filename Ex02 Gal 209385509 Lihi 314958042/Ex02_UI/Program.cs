@@ -10,7 +10,7 @@ namespace Ex02_UI
     {
         public static void Main()
         {
-            new ConsoleInterface.RunGame();
+            new ConsoleUserInterface().RunGame();
         }
     }
 }

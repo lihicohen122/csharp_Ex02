@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ex02_Logic
 {
-    internal class Game
+    public class Game
     {
     }
 }
