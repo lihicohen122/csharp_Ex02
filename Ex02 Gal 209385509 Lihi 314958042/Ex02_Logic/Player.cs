@@ -25,6 +25,11 @@ namespace Ex02_Logic
             return m_Sign;
         }
 
+        public int GetPlayerScore()
+        {
+            return m_Score; 
+        }
+
         public bool IsPlayerComputer()
         {
             return m_IsComputer;

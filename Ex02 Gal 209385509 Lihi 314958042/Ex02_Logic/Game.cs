@@ -29,6 +29,16 @@ namespace Ex02_Logic
             m_GameState = eGameState.Playing;
         }
 
+        public eGameState GetGameState()
+        {
+            return m_GameState;
+        }
+
+        public void QuitGame()
+        {
+            m_GameState = eGameState.Quit;
+        }
+
         public eCellSign GetCurrentPlayerSign()
         {
             return m_CurrentPlayer.GetPlayerSign();
@@ -182,6 +192,16 @@ namespace Ex02_Logic
             }
 
             return isSecondaryDiagonalSequence;
+        }
+
+        public int[] GetAllPlayersScore()
+        {
+            int[] playersScore = new int[2];
+
+            playersScore[0] = m_Player1.GetPlayerScore();
+            playersScore[1] = m_Player2.GetPlayerScore();
+
+            return playersScore;
         }
 
 

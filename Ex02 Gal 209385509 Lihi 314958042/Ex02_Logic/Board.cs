@@ -19,12 +19,12 @@ namespace Ex02_Logic
             m_BoardSize = i_Size;
             r_Matrix = new eCellSign[m_BoardSize][];
 
-            for (int i = 0; i < m_BoardSize; i++)
+            for(int i = 0; i < m_BoardSize; i++)
             {
                 r_Matrix[i] = new eCellSign[m_BoardSize];
             }
 
-            m_EmptyCellCount = m_BoardSize * m_BoardSize; 
+            m_EmptyCellCount = m_BoardSize * m_BoardSize;
         }
 
         public eCellSign[][] GetMatrix()
@@ -44,20 +44,20 @@ namespace Ex02_Logic
 
         public int GetNumberOfEmptyCells()
         {
-            return m_EmptyCellCount; 
+            return m_EmptyCellCount;
         }
 
         public bool UpdateCell(int i_Row, int i_Col, eCellSign i_Sign)
         {
             bool isCellUpdateable = isCellValid(i_Row, i_Col);
 
-            if (isCellUpdateable) 
+            if(isCellUpdateable)
             {
-               r_Matrix[i_Row][i_Col] = i_Sign;
-               m_EmptyCellCount--;
+                r_Matrix[i_Row][i_Col] = i_Sign;
+                m_EmptyCellCount--;
             }
 
-            return isCellUpdateable; 
+            return isCellUpdateable;
         }
 
         private bool isCellEmpty(int i_Row, int i_Col)
@@ -77,10 +77,10 @@ namespace Ex02_Logic
         }
 
         public void ClearBoard()
-        { 
+        {
             for(int i = 0; i < m_BoardSize; i++)
             {
-                for (int j = 0; j < m_BoardSize; j++)
+                for(int j = 0; j < m_BoardSize; j++)
                 {
                     r_Matrix[i][j] = eCellSign.Empty;
                 }
@@ -93,4 +93,5 @@ namespace Ex02_Logic
         {
             return m_EmptyCellCount == 0;
         }
+    }
 }
