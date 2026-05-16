@@ -138,35 +138,40 @@ namespace Ex02_UI
                         Console.WriteLine("Invalid number! Please enter a valid row number.");
                     }
                 }
-                
-                isCoordinateValid = false;
-                while(!isCoordinateValid)
+
+                if(!didUserQuit)
                 {
-                    Console.WriteLine($"Enter column or '{k_Quit}' to quit: ");
-                    string userInput = Console.ReadLine();
-                    if (userInput == k_Quit)
+                    isCoordinateValid = false;
+                    while(!isCoordinateValid)
                     {
-                        didUserQuit = true;
-                        break;
+                        Console.WriteLine($"Enter column or '{k_Quit}' to quit: ");
+                        string userInput = Console.ReadLine();
+                        if (userInput == k_Quit)
+                        {
+                            didUserQuit = true;
+                            break;
+                        }
+
+                        isCoordinateValid = int.TryParse(userInput, out o_Col) && k_MinCoordinate <= o_Col && o_Col <= m_Game.GetCurrentGameBoardSize();
+                        if(!isCoordinateValid)
+                        {
+                            Console.WriteLine("Invalid number! Please enter a valid column number.");
+                        }
                     }
 
-                    isCoordinateValid = int.TryParse(userInput, out o_Col) && k_MinCoordinate <= o_Col && o_Col <= m_Game.GetCurrentGameBoardSize();
-                    if(!isCoordinateValid)
+                    if(!didUserQuit)
                     {
-                        Console.WriteLine("Invalid number! Please enter a valid column number.");
+                        o_Row--;
+                        o_Col--;
+                        if (m_Game.GetCellSign(o_Row, o_Col) == eCellSign.Empty)
+                        {
+                            isCellEmpty = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("That cell is already occupied! Please choose an empty cell.");
+                        }
                     }
-                }
-                
-                o_Row--;
-                o_Col--;
-                
-                if (m_Game.GetCellSign(o_Row, o_Col) == eCellSign.Empty)
-                {
-                    isCellEmpty = true;
-                }
-                else
-                {
-                    Console.WriteLine("That cell is already occupied! Please choose an empty cell.");
                 }
             }
 
