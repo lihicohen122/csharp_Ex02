@@ -16,9 +16,9 @@ namespace Ex02_UI
         {
             bool isValidBoardSize = false;
             bool isValidIsVsComputer = false;
+
             o_BoardSize = 0;
             o_IsVsComputer = false;
-
             while(!isValidBoardSize)
             {
                 Console.WriteLine($"Enter board size between {k_LowerBound} and {k_UpperBound}: ");
@@ -175,7 +175,7 @@ namespace Ex02_UI
                 {
                     playAnotherRound = true;
                     isValidInput = true;
-                    m_Game.StartPlaying();
+                    m_Game.StartNewGame();
                 }
                 else if(userInput == "no")
                 {
