@@ -82,8 +82,8 @@ namespace Ex02_Logic
 
             while (!isTurnPlayed)
             {
-                row = new Random().Next(0, (m_Board.GetBoardSize() - 1));
-                col = new Random().Next(0, (m_Board.GetBoardSize() - 1));
+                row = new Random().Next(0, m_Board.GetBoardSize());
+                col = new Random().Next(0, m_Board.GetBoardSize());
                 isTurnPlayed = updateBoard(row, col);
             }
 
