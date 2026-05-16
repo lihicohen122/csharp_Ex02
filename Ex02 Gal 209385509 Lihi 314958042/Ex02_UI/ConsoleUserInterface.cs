@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Ex02_Logic;
@@ -10,6 +11,10 @@ namespace Ex02_UI
 {
     public class ConsoleUserInterface
     {
+        private const int k_LowerBound = 3;
+        private const int k_UpperBound = 9;
+        private const int k_MinCoordinate = 1;
+        private const string k_Quit = "Q";
         private Game m_Game;
 
         private static void getInitialSettings(out int o_BoardSize, out bool o_IsVsComputer)
@@ -21,8 +26,8 @@ namespace Ex02_UI
 
             while(!isValidBoardSize)
             {
-                Console.WriteLine("Enter board size between 3 and 9: ");
-                isValidBoardSize = int.TryParse(Console.ReadLine(), out o_BoardSize) && 3 < o_BoardSize && o_BoardSize < 9;
+                Console.WriteLine($"Enter board size between {k_LowerBound} and {k_UpperBound}: ");
+                isValidBoardSize = int.TryParse(Console.ReadLine(), out o_BoardSize) && k_LowerBound <= o_BoardSize && o_BoardSize <= k_UpperBound;
                 if(!isValidBoardSize)
                 {
                     Console.WriteLine("Invalid board size!");
@@ -110,14 +115,79 @@ namespace Ex02_UI
             // Console.WriteLine($"Player 1 score: {player1Score} | Player 2 score: {player2Score}"); // NEEDS FIXING!!!
         }
 
-        private void getPlayerMode(out int o_Row, out int o_Col, out bool o_Quit)
+        private bool readCellCoordinatesOrQuit(out int o_Row, out int o_Col)
         {
-            
+            bool isCoordinateValid = false;
+
+            o_Row = 0;
+            o_Col = 0;
+            bool didUserQuit = false;
+            while(!isCoordinateValid)
+            {
+                Console.WriteLine($"Enter row or '{k_Quit}' to quit: ");
+                string userInput = Console.ReadLine();
+                if(userInput == k_Quit)
+                {
+                    didUserQuit = true;
+                    break;
+                }
+
+                isCoordinateValid = int.TryParse(userInput, out o_Row) && k_MinCoordinate <= o_Row && o_Row <= m_Game.GetCurrentGameBoardSize();
+                if(!isCoordinateValid)
+                {
+                    Console.WriteLine("Invalid number! Please enter a valid row number.");
+                }
+            }
+
+            isCoordinateValid = false;
+
+            while(!isCoordinateValid && !didUserQuit)
+            {
+                Console.WriteLine($"Enter column or '{k_Quit}' to quit: ");
+                string userInput = Console.ReadLine();
+                if (userInput == k_Quit)
+                {
+                    didUserQuit = true;
+                    break;
+                }
+
+                isCoordinateValid = int.TryParse(userInput, out o_Col) && k_MinCoordinate <= o_Col && o_Col <= m_Game.GetCurrentGameBoardSize();
+                if(!isCoordinateValid)
+                {
+                    Console.WriteLine("Invalid number! Please enter a valid column number.");
+                }
+            }
+
+            o_Row--;
+            o_Col--;
+
+            return didUserQuit;
         }
 
         private bool handleEndOfGame()
         {
-            
+            bool isValidInput = false;
+            bool playAnotherRound = false;
+            while(!isValidInput)
+            {
+                Console.WriteLine("Would you like to play another round? (yes/no): ");
+                string userInput = Console.ReadLine();
+                if(userInput == "yes")
+                {
+                    playAnotherRound = true;
+                    isValidInput = true;
+                }
+                else if(userInput == "no")
+                {
+                    playAnotherRound = false;
+                    isValidInput = true;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid answer! Please enter 'yes' or 'no'.");
+                }
+            }
+            return playAnotherRound;
         }
 
         private void playSingleGame()

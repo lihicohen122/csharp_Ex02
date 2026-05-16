@@ -210,16 +210,5 @@ namespace Ex02_Logic
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
     }
 }
