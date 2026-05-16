@@ -24,9 +24,11 @@ namespace Ex02_Logic
             m_GameState = eGameState.NotInitialized;
         }
 
-        public void StartPlaying()
+        public void StartNewGame()
         {
+            clearGameBoard();
             m_GameState = eGameState.Playing;
+            m_CurrentPlayer = m_Player1;
         }
 
         public eGameState GetGameState()
@@ -209,7 +211,7 @@ namespace Ex02_Logic
             return playersScore;
         }
 
-        public void ClearGameBoard()
+        private void clearGameBoard()
         {
             m_Board.ClearBoard();
         }

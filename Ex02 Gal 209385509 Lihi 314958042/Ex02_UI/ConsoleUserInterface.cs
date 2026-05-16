@@ -233,7 +233,7 @@ namespace Ex02_UI
         {
             bool playAnotherRound = true;
 
-            m_Game.StartPlaying();
+            m_Game.StartNewGame();
             while(playAnotherRound)
             {
                 playSingleGame();
