@@ -164,7 +164,8 @@ namespace Ex02_UI
         {
             bool isValidInput = false;
             bool playAnotherRound = false;
-
+            
+            printScore();
             while(!isValidInput)
             {
                 Console.WriteLine("Would you like to play another round? (yes/no): ");
@@ -174,7 +175,7 @@ namespace Ex02_UI
                 {
                     playAnotherRound = true;
                     isValidInput = true;
-                    m_Game.ClearGameBoard();
+                    m_Game.StartPlaying();
                 }
                 else if(userInput == "no")
                 {
@@ -220,7 +221,6 @@ namespace Ex02_UI
             }
             
             printBoard();
-            printScore();
         }
 
         public ConsoleUserInterface()
@@ -237,13 +237,7 @@ namespace Ex02_UI
             while(playAnotherRound)
             {
                 playSingleGame();
-                bool doesUserWantToEndGame = handleEndOfGame();
-                
-                if(!doesUserWantToEndGame)
-                {
-                    m_Game.QuitGame();
-                }
-                playAnotherRound = m_Game.GetGameState() != eGameState.Quit;
+                playAnotherRound = m_Game.GetGameState() != eGameState.Quit && handleEndOfGame();
             }
         }
     }
