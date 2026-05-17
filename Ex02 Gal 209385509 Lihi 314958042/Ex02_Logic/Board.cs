@@ -1,30 +1,24 @@
 ﻿using Ex02_Logic.Enums;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex02_Logic
 {
     internal class Board
     {
         private readonly eCellSign[][] r_Matrix;
-        private int m_BoardSize;
+        private readonly int r_BoardSize;
         private int m_EmptyCellCount;
 
         public Board(int i_Size)
         {
-            m_BoardSize = i_Size;
-            r_Matrix = new eCellSign[m_BoardSize][];
-
-            for(int i = 0; i < m_BoardSize; i++)
+            r_BoardSize = i_Size;
+            r_Matrix = new eCellSign[r_BoardSize][];
+            for(int i = 0; i < r_BoardSize; i++)
             {
-                r_Matrix[i] = new eCellSign[m_BoardSize];
+                r_Matrix[i] = new eCellSign[r_BoardSize];
             }
 
-            m_EmptyCellCount = m_BoardSize * m_BoardSize;
+            m_EmptyCellCount = r_BoardSize * r_BoardSize;
+            ClearBoard();
         }
 
         public eCellSign[][] GetMatrix()
@@ -34,7 +28,7 @@ namespace Ex02_Logic
 
         public int GetBoardSize()
         {
-            return m_BoardSize;
+            return r_BoardSize;
         }
 
         public eCellSign GetCell(int i_Row, int i_Col)
@@ -67,7 +61,8 @@ namespace Ex02_Logic
 
         private bool isCellOutOfBounds(int i_Row, int i_Col)
         {
-            bool isOutOfBounds = i_Row < 0 || i_Row >= m_BoardSize || i_Col < 0 || i_Col >= m_BoardSize;
+            bool isOutOfBounds = i_Row < 0 || i_Row >= r_BoardSize || i_Col < 0 || i_Col >= r_BoardSize;
+
             return isOutOfBounds;
         }
 
@@ -78,15 +73,15 @@ namespace Ex02_Logic
 
         public void ClearBoard()
         {
-            for(int i = 0; i < m_BoardSize; i++)
+            for(int i = 0; i < r_BoardSize; ++i)
             {
-                for(int j = 0; j < m_BoardSize; j++)
+                for(int j = 0; j < r_BoardSize; ++j)
                 {
                     r_Matrix[i][j] = eCellSign.Empty;
                 }
             }
 
-            m_EmptyCellCount = m_BoardSize * m_BoardSize;
+            m_EmptyCellCount = r_BoardSize * r_BoardSize;
         }
 
         public bool IsBoardFull()
