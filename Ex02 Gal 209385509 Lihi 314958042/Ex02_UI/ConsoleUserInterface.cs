@@ -56,20 +56,20 @@ namespace Ex02_UI
             
             Ex02.ConsoleUtils.Screen.Clear();
             Console.Write("  ");
-            for(int col = 0; col < boardSize; ++col)
+            for(int column = 0; column < boardSize; ++column)
             {
-                Console.Write($" {col + 1}  "); // NEEDS FIXING!!!
+                Console.Write($" {column + 1}  "); // NEEDS FIXING!!!
             }
             
             Console.WriteLine();
             for(int row = 0; row < boardSize; ++row)
             {
                 Console.Write($"{row + 1}|"); // NEEDS FIXING!!!
-                for(int col = 0; col < boardSize; ++col)
+                for(int column = 0; column < boardSize; ++column)
                 {
                     char signToPrint = ' ';
 
-                    eCellSign currentSign = r_Game.GetCellSign(row, col);
+                    eCellSign currentSign = r_Game.GetCellSign(row, column);
                     if(currentSign == eCellSign.Cross)
                     {
                         signToPrint = 'X';
@@ -84,7 +84,7 @@ namespace Ex02_UI
 
                 Console.WriteLine();
                 Console.Write(" ="); // NEEDS FIXING!!!
-                for(int col = 0; col < boardSize; ++col)
+                for(int column = 0; column < boardSize; ++column)
                 {
                     Console.Write("===="); // NEEDS FIXING!!!
                 }
@@ -111,67 +111,27 @@ namespace Ex02_UI
             // Console.WriteLine($"Player 1 score: {player1Score} | Player 2 score: {player2Score}"); // NEEDS FIXING!!!
         }
 
-        private bool readCellCoordinatesOrQuit(out int o_Row, out int o_Col)
+        private bool didUserQuitCoordinateInput(string i_CoordinateName, out int o_Coordinate)
         {
+            bool isCoordinateValid = false;
             bool didUserQuit = false;
-            bool isCellEmpty = false;
+            o_Coordinate = 0;
 
-            o_Row = 0;
-            o_Col = 0;
-            while(!isCellEmpty && !didUserQuit)
+            while(!isCoordinateValid && !didUserQuit)
             {
-                bool isCoordinateValid = false;
+                Console.WriteLine($"Enter {i_CoordinateName} or '{k_Quit}' to quit: ");
+                string userInput = Console.ReadLine();
 
-                while(!isCoordinateValid)
+                if(userInput == k_Quit)
                 {
-                    Console.WriteLine($"Enter row or '{k_Quit}' to quit: ");
-                    string userInput = Console.ReadLine();
-                    if(userInput == k_Quit)
-                    {
-                        didUserQuit = true;
-                        break;
-                    }
-
-                    isCoordinateValid = int.TryParse(userInput, out o_Row) && k_MinCoordinate <= o_Row && o_Row <= r_Game.GetCurrentGameBoardSize();
-                    if(!isCoordinateValid)
-                    {
-                        Console.WriteLine("Invalid number! Please enter a valid row number.");
-                    }
+                    didUserQuit = true;
                 }
-
-                if(!didUserQuit)
+                else
                 {
-                    isCoordinateValid = false;
-                    while(!isCoordinateValid)
+                    isCoordinateValid = int.TryParse(userInput, out o_Coordinate) && k_MinCoordinate <= o_Coordinate && o_Coordinate <= r_Game.GetCurrentGameBoardSize();
+                    if (!isCoordinateValid)
                     {
-                        Console.WriteLine($"Enter column or '{k_Quit}' to quit: ");
-                        string userInput = Console.ReadLine();
-
-                        if(userInput == k_Quit)
-                        {
-                            didUserQuit = true;
-                            break;
-                        }
-
-                        isCoordinateValid = int.TryParse(userInput, out o_Col) && k_MinCoordinate <= o_Col && o_Col <= r_Game.GetCurrentGameBoardSize();
-                        if(!isCoordinateValid)
-                        {
-                            Console.WriteLine("Invalid number! Please enter a valid column number.");
-                        }
-                    }
-
-                    if(!didUserQuit)
-                    {
-                        o_Row--;
-                        o_Col--;
-                        if (r_Game.GetCellSign(o_Row, o_Col) == eCellSign.Empty)
-                        {
-                            isCellEmpty = true;
-                        }
-                        else
-                        {
-                            Console.WriteLine("That cell is already occupied! Please choose an empty cell.");
-                        }
+                        Console.WriteLine($"Invalid number! Please enter a valid {i_CoordinateName} number.");
                     }
                 }
             }
@@ -179,7 +139,41 @@ namespace Ex02_UI
             return didUserQuit;
         }
 
-        private bool handleEndOfGame()
+        private bool didUserQuitWhileEnteringCoordinates(out int o_Row, out int o_Column)
+        {
+            bool didUserQuit = false;
+            bool isCellEmpty = false;
+
+            o_Row = 0;
+            o_Column = 0;
+            while(!isCellEmpty && !didUserQuit)
+            {
+                didUserQuit = didUserQuitCoordinateInput("row", out o_Row);
+
+                if(!didUserQuit)
+                {
+                    didUserQuit = didUserQuitCoordinateInput("column", out o_Column);
+                }
+
+                if(!didUserQuit)
+                {
+                    o_Row--;
+                    o_Column--;
+                    if (r_Game.GetCellSign(o_Row, o_Column) == eCellSign.Empty)
+                    {
+                        isCellEmpty = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("That cell is already occupied! Please choose an empty cell.");
+                    }
+                }
+            }
+
+            return didUserQuit;
+        }
+
+        private bool checkIfUserWantsToContinueAndShowResults()
         {
             bool isValidInput = false;
             bool playAnotherRound = false;
@@ -210,7 +204,7 @@ namespace Ex02_UI
             return playAnotherRound;
         }
 
-        private void playSingleGame()
+        private void playSingleRound()
         {
             bool isGameOver = false;
 
@@ -223,13 +217,13 @@ namespace Ex02_UI
                 }
                 else
                 {
-                    if(readCellCoordinatesOrQuit(out int row, out int col))
+                    if(didUserQuitWhileEnteringCoordinates(out int row, out int column))
                     {
                         r_Game.QuitGame();
                     }
                     else
                     {
-                        r_Game.PlayUserTurn(row, col);
+                        r_Game.PlayUserTurn(row, column);
                     }
                 }
                 
@@ -252,8 +246,8 @@ namespace Ex02_UI
             r_Game.StartNewGame();
             while(playAnotherRound)
             {
-                playSingleGame();
-                playAnotherRound = r_Game.GetGameState() != eGameState.Quit && handleEndOfGame();
+                playSingleRound();
+                playAnotherRound = r_Game.GetGameState() != eGameState.Quit && checkIfUserWantsToContinueAndShowResults();
             }
         }
     }

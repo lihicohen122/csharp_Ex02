@@ -31,9 +31,9 @@ namespace Ex02_Logic
             return r_BoardSize;
         }
 
-        public eCellSign GetCell(int i_Row, int i_Col)
+        public eCellSign GetCell(int i_Row, int i_Column)
         {
-            return r_Matrix[i_Row][i_Col];
+            return r_Matrix[i_Row][i_Column];
         }
 
         public int GetNumberOfEmptyCells()
@@ -41,34 +41,32 @@ namespace Ex02_Logic
             return m_EmptyCellCount;
         }
 
-        public bool UpdateCell(int i_Row, int i_Col, eCellSign i_Sign)
+        public bool UpdateCell(int i_Row, int i_Column, eCellSign i_Sign)
         {
-            bool isCellUpdateable = isCellValid(i_Row, i_Col);
+            bool isCellUpdateable = isCellValid(i_Row, i_Column);
 
             if(isCellUpdateable)
             {
-                r_Matrix[i_Row][i_Col] = i_Sign;
+                r_Matrix[i_Row][i_Column] = i_Sign;
                 m_EmptyCellCount--;
             }
 
             return isCellUpdateable;
         }
 
-        private bool isCellEmpty(int i_Row, int i_Col)
+        private bool isCellEmpty(int i_Row, int i_Column)
         {
-            return r_Matrix[i_Row][i_Col] == eCellSign.Empty;
+            return r_Matrix[i_Row][i_Column] == eCellSign.Empty;
         }
 
-        private bool isCellOutOfBounds(int i_Row, int i_Col)
+        private bool isCellOutOfBounds(int i_Row, int i_Column)
         {
-            bool isOutOfBounds = i_Row < 0 || i_Row >= r_BoardSize || i_Col < 0 || i_Col >= r_BoardSize;
-
-            return isOutOfBounds;
+            return i_Row < 0 || i_Row >= r_BoardSize || i_Column < 0 || i_Column >= r_BoardSize;
         }
 
-        private bool isCellValid(int i_Row, int i_Col)
+        private bool isCellValid(int i_Row, int i_Column)
         {
-            return !isCellOutOfBounds(i_Row, i_Col) && isCellEmpty(i_Row, i_Col);
+            return !isCellOutOfBounds(i_Row, i_Column) && isCellEmpty(i_Row, i_Column);
         }
 
         public void ClearBoard()

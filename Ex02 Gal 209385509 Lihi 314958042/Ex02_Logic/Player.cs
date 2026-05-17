@@ -30,9 +30,9 @@ namespace Ex02_Logic
             return r_IsComputer;
         }
 
-        public int AddScore()
+        public void IncrementPlayerScore()
         {
-            return ++m_Score;
+            ++m_Score;
         }
     }
 }
