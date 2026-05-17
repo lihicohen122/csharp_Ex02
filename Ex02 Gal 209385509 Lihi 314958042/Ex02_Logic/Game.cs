@@ -42,6 +42,11 @@ namespace Ex02_Logic
             return m_CurrentPlayer.GetPlayerSign();
         }
 
+        public bool IsPlayerComputer()
+        {
+            return m_CurrentPlayer.IsPlayerComputer();
+        }
+
         public bool IsCurrentPlayerComputer()
         {
             return m_CurrentPlayer.IsPlayerComputer();
@@ -122,10 +127,8 @@ namespace Ex02_Logic
         {
             eCellSign currentSign = m_CurrentPlayer.GetPlayerSign();
 
-            return checkRowSequence(i_Row, currentSign) ||
-                   checkColumnSequence(i_Column, currentSign) ||
-                   checkMainDiagonalSequence(currentSign) ||
-                   checkSecondaryDiagonalSequence(currentSign);
+            return checkRowSequence(i_Row, currentSign) || checkColumnSequence(i_Column, currentSign) ||
+                   checkMainDiagonalSequence(currentSign) || checkSecondaryDiagonalSequence(currentSign);
         }
 
         private bool checkIfTie(int i_Row, int i_Column)
