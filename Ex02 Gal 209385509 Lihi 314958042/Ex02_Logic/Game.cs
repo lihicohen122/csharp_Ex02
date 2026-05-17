@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ex02_Logic.Enums;
 
 namespace Ex02_Logic
@@ -82,7 +78,7 @@ namespace Ex02_Logic
             int row = 0;
             int col = 0;
 
-            while (!isTurnPlayed)
+            while(!isTurnPlayed)
             {
                 row = new Random().Next(0, m_Board.GetBoardSize());
                 col = new Random().Next(0, m_Board.GetBoardSize());
@@ -141,7 +137,7 @@ namespace Ex02_Logic
         {
             bool isRowSequence = true;
 
-            for(int col = 0; col < m_Board.GetBoardSize(); col++)
+            for(int col = 0; col < m_Board.GetBoardSize(); ++col)
             {
                 if(m_Board.GetMatrix()[i_Row][col] != i_Sign)
                 {
@@ -157,7 +153,7 @@ namespace Ex02_Logic
         {
             bool isColumnSequence = true;
 
-            for(int row = 0; row < m_Board.GetBoardSize(); row++)
+            for(int row = 0; row < m_Board.GetBoardSize(); ++row)
             {
                 if(m_Board.GetMatrix()[row][i_Col] != i_Sign)
                 {
@@ -173,7 +169,7 @@ namespace Ex02_Logic
         { 
             bool isMainDiagonalSequence = true; 
 
-            for(int i = 0; i < m_Board.GetBoardSize(); i++)
+            for(int i = 0; i < m_Board.GetBoardSize(); ++i)
             {
                 if(m_Board.GetMatrix()[i][i] != i_Sign)
                 {
@@ -189,7 +185,7 @@ namespace Ex02_Logic
         {
             bool isSecondaryDiagonalSequence = true;
 
-            for(int i = 0; i < m_Board.GetBoardSize(); i++)
+            for(int i = 0; i < m_Board.GetBoardSize(); ++i)
             {
                 if(m_Board.GetMatrix()[i][m_Board.GetBoardSize() - 1 - i] != i_Sign)
                 {
@@ -215,6 +211,5 @@ namespace Ex02_Logic
         {
             m_Board.ClearBoard();
         }
-
     }
 }

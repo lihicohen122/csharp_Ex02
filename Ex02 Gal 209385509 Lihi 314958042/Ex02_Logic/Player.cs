@@ -1,28 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ex02_Logic.Enums;
+﻿using Ex02_Logic.Enums;
 
 namespace Ex02_Logic
 {
     internal class Player
     {
         private int m_Score;
-        private eCellSign m_Sign;
-        private bool m_IsComputer;
+        private readonly eCellSign r_Sign;
+        private readonly bool r_IsComputer;
 
         public Player(eCellSign i_Sign, bool i_IsComputer)
         {
-            m_Sign = i_Sign;
-            m_IsComputer = i_IsComputer;
+            r_Sign = i_Sign;
+            r_IsComputer = i_IsComputer;
             m_Score = 0;
         }
 
         public eCellSign GetPlayerSign()
         {
-            return m_Sign;
+            return r_Sign;
         }
 
         public int GetPlayerScore()
@@ -32,14 +27,12 @@ namespace Ex02_Logic
 
         public bool IsPlayerComputer()
         {
-            return m_IsComputer;
+            return r_IsComputer;
         }
 
         public int AddScore()
         {
             return ++m_Score;
         }
-
-
     }
 }
