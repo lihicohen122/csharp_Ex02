@@ -13,19 +13,24 @@ namespace Ex02_Logic
         {
             r_BoardSize = i_Size;
             r_Matrix = new eCellSign[r_BoardSize, r_BoardSize];
-
             r_TotalNumOfCells = r_BoardSize * r_BoardSize;
             ClearBoard();
         }
 
-        public eCellSign[,] GetMatrix()
+        public int BoardSize
         {
-            return r_Matrix;
+            get
+            {
+                return r_BoardSize;
+            }
         }
 
-        public int GetBoardSize()
+        public int NumberOfEmptyCells
         {
-            return r_BoardSize;
+            get
+            {
+                return m_EmptyCellCount;
+            }
         }
 
         public eCellSign GetCell(int i_Row, int i_Column)
@@ -33,16 +38,11 @@ namespace Ex02_Logic
             return r_Matrix[i_Row, i_Column];
         }
 
-        public int GetNumberOfEmptyCells()
-        {
-            return m_EmptyCellCount;
-        }
-
         public bool UpdateCell(int i_Row, int i_Column, eCellSign i_Sign)
         {
             bool isCellUpdateable = isCellValid(i_Row, i_Column);
 
-            if (isCellUpdateable)
+            if(isCellUpdateable)
             {
                 r_Matrix[i_Row, i_Column] = i_Sign;
                 m_EmptyCellCount--;
@@ -68,9 +68,9 @@ namespace Ex02_Logic
 
         public void ClearBoard()
         {
-            for (int i = 0; i < r_BoardSize; ++i)
+            for(int i = 0; i < r_BoardSize; ++i)
             {
-                for (int j = 0; j < r_BoardSize; ++j)
+                for(int j = 0; j < r_BoardSize; ++j)
                 {
                     r_Matrix[i, j] = eCellSign.Empty;
                 }
@@ -94,9 +94,9 @@ namespace Ex02_Logic
         {
             bool isRowSequence = true;
 
-            for (int column = 0; column < r_BoardSize; ++column)
+            for(int column = 0; column < r_BoardSize; ++column)
             {
-                if (r_Matrix[i_Row, column] != i_Sign)
+                if(r_Matrix[i_Row, column] != i_Sign)
                 {
                     isRowSequence = false;
                     break;
@@ -110,9 +110,9 @@ namespace Ex02_Logic
         {
             bool isColumnSequence = true;
 
-            for (int row = 0; row < r_BoardSize; ++row)
+            for(int row = 0; row < r_BoardSize; ++row)
             {
-                if (r_Matrix[row, i_Column] != i_Sign)
+                if(r_Matrix[row, i_Column] != i_Sign)
                 {
                     isColumnSequence = false;
                     break;
@@ -126,9 +126,9 @@ namespace Ex02_Logic
         {
             bool isMainDiagonalSequence = true;
 
-            for (int i = 0; i < r_BoardSize; ++i)
+            for(int i = 0; i < r_BoardSize; ++i)
             {
-                if (r_Matrix[i, i] != i_Sign)
+                if(r_Matrix[i, i] != i_Sign)
                 {
                     isMainDiagonalSequence = false;
                     break;
@@ -142,9 +142,9 @@ namespace Ex02_Logic
         {
             bool isSecondaryDiagonalSequence = true;
 
-            for (int i = 0; i < r_BoardSize; ++i)
+            for(int i = 0; i < r_BoardSize; ++i)
             {
-                if (r_Matrix[i, r_BoardSize - 1 - i] != i_Sign)
+                if(r_Matrix[i, r_BoardSize - 1 - i] != i_Sign)
                 {
                     isSecondaryDiagonalSequence = false;
                     break;
@@ -152,6 +152,38 @@ namespace Ex02_Logic
             }
 
             return isSecondaryDiagonalSequence;
+        }
+
+        public Board CloneBoard()
+        { ;
+            Board clonedBoard = new Board(r_BoardSize);
+
+            for(int row = 0; row < r_BoardSize; ++row)
+            {
+                for(int column = 0; column < r_BoardSize; ++column)
+                {
+                    eCellSign currentSign = GetCell(row, column);
+                    if(currentSign != eCellSign.Empty)
+                    {
+                        clonedBoard.UpdateCell(row, column, currentSign);
+                    }
+                }
+            }
+
+            return clonedBoard;
+        }
+
+        public void RestoreState(Board i_OriginalBoard)
+        {
+            for(int row = 0; row < r_BoardSize; ++row)
+            {
+                for(int column = 0; column < r_BoardSize; ++column)
+                {
+                    r_Matrix[row, column] = i_OriginalBoard.GetCell(row, column);
+                }
+            }
+
+            m_EmptyCellCount = i_OriginalBoard.NumberOfEmptyCells;
         }
     }
 }

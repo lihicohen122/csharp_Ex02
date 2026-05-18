@@ -1,34 +1,61 @@
-﻿using System;
-using Ex02_Logic.Enums;
+﻿using Ex02_Logic.Enums;
 
 namespace Ex02_Logic
 {
     public class Game
     {
-        private Board m_Board;
-        private Player m_Player1;
-        private Player m_Player2;
+        private readonly Board r_Board;
+        private readonly Player r_Player1;
+        private readonly Player r_Player2;
         private Player m_CurrentPlayer;
         private eGameState m_GameState;
+        private readonly MonteCarloAI r_ComputerAI;
 
-        public Game(int i_BoardSize, bool i_IsPlayerComputer)
+        public eGameState GameState
         {
-            m_Board = new Board(i_BoardSize);
-            m_Player1 = new Player(eCellSign.Cross, false);
-            m_Player2 = new Player(eCellSign.Circle, i_IsPlayerComputer);
-            m_CurrentPlayer = m_Player1;
+            get
+            {
+                return m_GameState;
+            }
+        }
+
+        public int BoardSize
+        {
+            get
+            {
+                return r_Board.BoardSize;
+            }
+        }
+
+        public bool IsCurrentPlayerComputer
+        {
+            get
+            {
+                return m_CurrentPlayer.IsPlayerComputer;
+            }
+        }
+
+        public Game(int i_BoardSize, bool i_IsOpponentComputer)
+        {
+            const bool v_IsComputerPlayer = true;
+
+            r_ComputerAI = i_IsOpponentComputer ? new MonteCarloAI() : null;
+            r_Board = new Board(i_BoardSize);
+            r_Player1 = new Player(eCellSign.Cross, !v_IsComputerPlayer);
+            r_Player2 = new Player(eCellSign.Circle, i_IsOpponentComputer);
+            m_CurrentPlayer = r_Player1;
+        }
+
+        private eCellSign getOtherPlayerSign()
+        {
+            return m_CurrentPlayer == r_Player1 ? r_Player2.PlayerSign : r_Player1.PlayerSign;
         }
 
         public void StartNewGame()
         {
             clearGameBoard();
             m_GameState = eGameState.Playing;
-            m_CurrentPlayer = m_Player1;
-        }
-
-        public eGameState GetGameState()
-        {
-            return m_GameState;
+            m_CurrentPlayer = r_Player1;
         }
 
         public void QuitGame()
@@ -36,34 +63,14 @@ namespace Ex02_Logic
             m_GameState = eGameState.Quit;
         }
 
-        public eCellSign GetCurrentPlayerSign()
-        {
-            return m_CurrentPlayer.GetPlayerSign();
-        }
-
-        public bool IsPlayerComputer()
-        {
-            return m_CurrentPlayer.IsPlayerComputer();
-        }
-
-        public bool IsCurrentPlayerComputer()
-        {
-            return m_CurrentPlayer.IsPlayerComputer();
-        }
-
         public eCellSign GetCellSign(int i_Row, int i_Column)
         {
-            return m_Board.GetCell(i_Row, i_Column);
-        }
-
-        public int GetCurrentGameBoardSize()
-        {
-            return m_Board.GetBoardSize();
+            return r_Board.GetCell(i_Row, i_Column);
         }
 
         private bool updateBoard(int i_Row, int i_Column)
         {
-            return m_Board.UpdateCell(i_Row, i_Column, m_CurrentPlayer.GetPlayerSign());
+            return r_Board.UpdateCell(i_Row, i_Column, m_CurrentPlayer.PlayerSign);
         }
 
         public void PlayUserTurn(int i_Row, int i_Column)
@@ -78,33 +85,24 @@ namespace Ex02_Logic
 
         public void PlayComputerTurn()
         {
-            bool isTurnPlayed = false;
-            int row = 0;
-            int column = 0;
-
-            while(!isTurnPlayed)
-            {
-                row = new Random().Next(0, m_Board.GetBoardSize());
-                column = new Random().Next(0, m_Board.GetBoardSize());
-                isTurnPlayed = updateBoard(row, column);
-            }
-
-            checkAndHandleEndOfTurn(row, column);
+            r_ComputerAI.StartMonteCarloTreeSearchAlgorithm(r_Board, m_CurrentPlayer.PlayerSign, getOtherPlayerSign(), out int bestRow, out int bestColumn);
+            updateBoard(bestRow, bestColumn);
+            checkAndHandleEndOfTurn(bestRow, bestColumn);
         }
 
         private void checkAndHandleEndOfTurn(int i_Row, int i_Column)
         {
             if(checkIfWinner(i_Row, i_Column))
             {
-                if(m_CurrentPlayer == m_Player1)
+                if(m_CurrentPlayer == r_Player1)
                 {
                     m_GameState = eGameState.Player2Won;
-                    m_Player2.IncrementPlayerScore();
+                    r_Player2.IncrementPlayerScore();
                 }
                 else
                 {
                     m_GameState = eGameState.Player1Won;
-                    m_Player1.IncrementPlayerScore();
+                    r_Player1.IncrementPlayerScore();
                 }
             }
             else if(checkIfTie(i_Row, i_Column))
@@ -119,34 +117,34 @@ namespace Ex02_Logic
 
         private void switchPlayer()
         {
-            m_CurrentPlayer = m_CurrentPlayer == m_Player1 ? m_Player2 : m_Player1; 
+            m_CurrentPlayer = m_CurrentPlayer == r_Player1 ? r_Player2 : r_Player1; 
         }
 
         private bool checkIfWinner(int i_Row, int i_Column)
         {
-            eCellSign currentSign = m_CurrentPlayer.GetPlayerSign();
+            eCellSign currentSign = m_CurrentPlayer.PlayerSign;
 
-            return m_Board.CheckWinningSequence(i_Row, i_Column, currentSign);
+            return r_Board.CheckWinningSequence(i_Row, i_Column, currentSign);
         }
 
         private bool checkIfTie(int i_Row, int i_Column)
         {
-            return m_Board.IsBoardFull() && !checkIfWinner(i_Row, i_Column);
+            return r_Board.IsBoardFull() && !checkIfWinner(i_Row, i_Column);
         }
 
         public int[] GetAllPlayersScore()
         {
             int[] playersScore = new int[2];
 
-            playersScore[0] = m_Player1.GetPlayerScore();
-            playersScore[1] = m_Player2.GetPlayerScore();
+            playersScore[0] = r_Player1.PlayerScore;
+            playersScore[1] = r_Player2.PlayerScore;
 
             return playersScore;
         }
 
         private void clearGameBoard()
         {
-            m_Board.ClearBoard();
+            r_Board.ClearBoard();
         }
     }
 }
