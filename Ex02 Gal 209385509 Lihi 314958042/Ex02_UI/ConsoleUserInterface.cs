@@ -10,42 +10,62 @@ namespace Ex02_UI
         private const int k_UpperBound = 9;
         private const int k_MinCoordinate = 1;
         private const string k_Quit = "Q";
+        private bool m_DidUserQuit;
         private readonly Game r_Game;
 
-        private static void getInitialSettings(out int o_BoardSize, out bool o_IsVsComputer)
+        private void getInitialSettings(out int o_BoardSize, out bool o_IsVsComputer)
         {
             bool isValidBoardSize = false;
             bool isValidIsVsComputer = false;
 
+            m_DidUserQuit = false;
             o_BoardSize = 0;
             o_IsVsComputer = false;
             while(!isValidBoardSize)
             {
                 Console.WriteLine($"Enter board size between {k_LowerBound} and {k_UpperBound}: ");
-                isValidBoardSize = int.TryParse(Console.ReadLine(), out o_BoardSize) && k_LowerBound <= o_BoardSize && o_BoardSize <= k_UpperBound;
+                string userInput = Console.ReadLine();
+
+                if(userInput == k_Quit)
+                {
+                    m_DidUserQuit = true;
+                    break;
+                }
+
+                isValidBoardSize = int.TryParse(userInput, out o_BoardSize) && k_LowerBound <= o_BoardSize && o_BoardSize <= k_UpperBound;
                 if(!isValidBoardSize)
                 {
                     Console.WriteLine("Invalid board size!");
                 }
             }
-            
-            while(!isValidIsVsComputer)
+
+            if(!m_DidUserQuit)
             {
-                Console.WriteLine("Would you like to play against the computer? (yes/no): ");
-                string input = Console.ReadLine();
-                if(input == "yes")
+                while(!isValidIsVsComputer)
                 {
-                    o_IsVsComputer = true;
-                    isValidIsVsComputer = true;
-                }
-                else if(input == "no")
-                {
-                    o_IsVsComputer = false;
-                    isValidIsVsComputer = true;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid answer!");
+                    Console.WriteLine("Would you like to play against the computer? (yes/no): ");
+                    string userInput = Console.ReadLine();
+
+                    if(userInput == k_Quit)
+                    {
+                        m_DidUserQuit = true;
+                        break;
+                    }
+
+                    if(userInput == "yes")
+                    {
+                        o_IsVsComputer = true;
+                        isValidIsVsComputer = true;
+                    }
+                    else if(userInput == "no")
+                    {
+                        o_IsVsComputer = false;
+                        isValidIsVsComputer = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid answer!");
+                    }
                 }
             }
         }
@@ -58,13 +78,13 @@ namespace Ex02_UI
             Console.Write("  ");
             for(int column = 0; column < boardSize; ++column)
             {
-                Console.Write($" {column + 1}  "); // NEEDS FIXING!!!
+                Console.Write($" {column + 1}  ");
             }
             
             Console.WriteLine();
             for(int row = 0; row < boardSize; ++row)
             {
-                Console.Write($"{row + 1}|"); // NEEDS FIXING!!!
+                Console.Write($"{row + 1}|");
                 for(int column = 0; column < boardSize; ++column)
                 {
                     char signToPrint = ' ';
@@ -79,14 +99,14 @@ namespace Ex02_UI
                         signToPrint = 'O';
                     }
 
-                    Console.Write($" {signToPrint} |"); // NEEDS FIXING!!!
+                    Console.Write($" {signToPrint} |");
                 }
 
                 Console.WriteLine();
-                Console.Write(" ="); // NEEDS FIXING!!!
+                Console.Write(" =");
                 for(int column = 0; column < boardSize; ++column)
                 {
-                    Console.Write("===="); // NEEDS FIXING!!!
+                    Console.Write("====");
                 }
                 
                 Console.WriteLine();
@@ -108,23 +128,21 @@ namespace Ex02_UI
                 }
             }
             Console.WriteLine();
-            // Console.WriteLine($"Player 1 score: {player1Score} | Player 2 score: {player2Score}"); // NEEDS FIXING!!!
         }
 
         private bool didUserQuitCoordinateInput(string i_CoordinateName, out int o_Coordinate)
         {
             bool isCoordinateValid = false;
-            bool didUserQuit = false;
             o_Coordinate = 0;
 
-            while(!isCoordinateValid && !didUserQuit)
+            while(!isCoordinateValid && !m_DidUserQuit)
             {
                 Console.WriteLine($"Enter {i_CoordinateName} or '{k_Quit}' to quit: ");
                 string userInput = Console.ReadLine();
 
                 if(userInput == k_Quit)
                 {
-                    didUserQuit = true;
+                    m_DidUserQuit = true;
                 }
                 else
                 {
@@ -136,26 +154,25 @@ namespace Ex02_UI
                 }
             }
 
-            return didUserQuit;
+            return m_DidUserQuit;
         }
 
         private bool didUserQuitWhileEnteringCoordinates(out int o_Row, out int o_Column)
         {
-            bool didUserQuit = false;
             bool isCellEmpty = false;
 
             o_Row = 0;
             o_Column = 0;
-            while(!isCellEmpty && !didUserQuit)
+            while(!isCellEmpty && !m_DidUserQuit)
             {
-                didUserQuit = didUserQuitCoordinateInput("row", out o_Row);
+                m_DidUserQuit = didUserQuitCoordinateInput("row", out o_Row);
 
-                if(!didUserQuit)
+                if(!m_DidUserQuit)
                 {
-                    didUserQuit = didUserQuitCoordinateInput("column", out o_Column);
+                    m_DidUserQuit = didUserQuitCoordinateInput("column", out o_Column);
                 }
 
-                if(!didUserQuit)
+                if(!m_DidUserQuit)
                 {
                     o_Row--;
                     o_Column--;
@@ -170,7 +187,7 @@ namespace Ex02_UI
                 }
             }
 
-            return didUserQuit;
+            return m_DidUserQuit;
         }
 
         private bool checkIfUserWantsToContinueAndShowResults()
@@ -192,7 +209,6 @@ namespace Ex02_UI
                 }
                 else if(userInput == "no")
                 {
-                    playAnotherRound = false;
                     isValidInput = true;
                 }
                 else
@@ -236,11 +252,23 @@ namespace Ex02_UI
         public ConsoleUserInterface()
         {
             getInitialSettings(out int boardSize, out bool isVsComputer);
-            r_Game = new Game(boardSize, isVsComputer);
+            if (!m_DidUserQuit)
+            {
+                r_Game = new Game(boardSize, isVsComputer);
+            }
+            else
+            {
+                r_Game = null;
+            }
         }
 
         public void RunGame()
         {
+            if(m_DidUserQuit)
+            {
+                return;
+            }
+
             bool playAnotherRound = true;
 
             r_Game.StartNewGame();
