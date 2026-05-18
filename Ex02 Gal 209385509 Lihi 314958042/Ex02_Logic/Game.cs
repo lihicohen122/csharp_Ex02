@@ -127,77 +127,12 @@ namespace Ex02_Logic
         {
             eCellSign currentSign = m_CurrentPlayer.GetPlayerSign();
 
-            return checkRowSequence(i_Row, currentSign) || checkColumnSequence(i_Column, currentSign) ||
-                   checkMainDiagonalSequence(currentSign) || checkSecondaryDiagonalSequence(currentSign);
+            return m_Board.CheckWinningSequence(i_Row, i_Column, currentSign);
         }
 
         private bool checkIfTie(int i_Row, int i_Column)
         {
             return m_Board.IsBoardFull() && !checkIfWinner(i_Row, i_Column);
-        }
-
-        private bool checkRowSequence(int i_Row, eCellSign i_Sign)
-        {
-            bool isRowSequence = true;
-
-            for(int column = 0; column < m_Board.GetBoardSize(); ++column)
-            {
-                if(m_Board.GetMatrix()[i_Row,column] != i_Sign)
-                {
-                    isRowSequence = false;
-                    break;
-                }
-            }
-
-            return isRowSequence;
-        }
-
-        private bool checkColumnSequence(int i_Column, eCellSign i_Sign)
-        {
-            bool isColumnSequence = true;
-
-            for(int row = 0; row < m_Board.GetBoardSize(); ++row)
-            {
-                if(m_Board.GetMatrix()[row ,i_Column] != i_Sign)
-                {
-                    isColumnSequence = false;
-                    break;
-                }
-            }
-
-            return isColumnSequence;
-        }
-
-        private bool checkMainDiagonalSequence(eCellSign i_Sign)
-        { 
-            bool isMainDiagonalSequence = true; 
-
-            for(int i = 0; i < m_Board.GetBoardSize(); ++i)
-            {
-                if(m_Board.GetMatrix()[i,i] != i_Sign)
-                {
-                    isMainDiagonalSequence = false;
-                    break;
-                }
-            }
-
-            return isMainDiagonalSequence;
-        }
-
-        private bool checkSecondaryDiagonalSequence(eCellSign i_Sign)
-        {
-            bool isSecondaryDiagonalSequence = true;
-
-            for(int i = 0; i < m_Board.GetBoardSize(); ++i)
-            {
-                if(m_Board.GetMatrix()[i, m_Board.GetBoardSize() - 1 - i] != i_Sign)
-                {
-                    isSecondaryDiagonalSequence = false;
-                    break;
-                }
-            }
-
-            return isSecondaryDiagonalSequence;
         }
 
         public int[] GetAllPlayersScore()
