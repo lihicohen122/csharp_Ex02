@@ -4,24 +4,21 @@ namespace Ex02_Logic
 {
     internal class Board
     {
-        private readonly eCellSign[][] r_Matrix;
+        private readonly eCellSign[,] r_Matrix;
         private readonly int r_BoardSize;
+        private readonly int r_TotalNumOfCells;
         private int m_EmptyCellCount;
 
         public Board(int i_Size)
         {
             r_BoardSize = i_Size;
-            r_Matrix = new eCellSign[r_BoardSize][];
-            for(int i = 0; i < r_BoardSize; i++)
-            {
-                r_Matrix[i] = new eCellSign[r_BoardSize];
-            }
+            r_Matrix = new eCellSign[r_BoardSize, r_BoardSize];
 
-            m_EmptyCellCount = r_BoardSize * r_BoardSize;
+            r_TotalNumOfCells = r_BoardSize * r_BoardSize;
             ClearBoard();
         }
 
-        public eCellSign[][] GetMatrix()
+        public eCellSign[,] GetMatrix()
         {
             return r_Matrix;
         }
@@ -33,7 +30,7 @@ namespace Ex02_Logic
 
         public eCellSign GetCell(int i_Row, int i_Column)
         {
-            return r_Matrix[i_Row][i_Column];
+            return r_Matrix[i_Row, i_Column];
         }
 
         public int GetNumberOfEmptyCells()
@@ -45,9 +42,9 @@ namespace Ex02_Logic
         {
             bool isCellUpdateable = isCellValid(i_Row, i_Column);
 
-            if(isCellUpdateable)
+            if (isCellUpdateable)
             {
-                r_Matrix[i_Row][i_Column] = i_Sign;
+                r_Matrix[i_Row, i_Column] = i_Sign;
                 m_EmptyCellCount--;
             }
 
@@ -56,7 +53,7 @@ namespace Ex02_Logic
 
         private bool isCellEmpty(int i_Row, int i_Column)
         {
-            return r_Matrix[i_Row][i_Column] == eCellSign.Empty;
+            return r_Matrix[i_Row, i_Column] == eCellSign.Empty;
         }
 
         private bool isCellOutOfBounds(int i_Row, int i_Column)
@@ -71,15 +68,15 @@ namespace Ex02_Logic
 
         public void ClearBoard()
         {
-            for(int i = 0; i < r_BoardSize; ++i)
+            for (int i = 0; i < r_BoardSize; ++i)
             {
-                for(int j = 0; j < r_BoardSize; ++j)
+                for (int j = 0; j < r_BoardSize; ++j)
                 {
-                    r_Matrix[i][j] = eCellSign.Empty;
+                    r_Matrix[i, j] = eCellSign.Empty;
                 }
             }
 
-            m_EmptyCellCount = r_BoardSize * r_BoardSize;
+            m_EmptyCellCount = r_TotalNumOfCells;
         }
 
         public bool IsBoardFull()

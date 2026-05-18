@@ -142,7 +142,7 @@ namespace Ex02_Logic
 
             for(int column = 0; column < m_Board.GetBoardSize(); ++column)
             {
-                if(m_Board.GetMatrix()[i_Row][column] != i_Sign)
+                if(m_Board.GetMatrix()[i_Row,column] != i_Sign)
                 {
                     isRowSequence = false;
                     break;
@@ -158,7 +158,7 @@ namespace Ex02_Logic
 
             for(int row = 0; row < m_Board.GetBoardSize(); ++row)
             {
-                if(m_Board.GetMatrix()[row][i_Column] != i_Sign)
+                if(m_Board.GetMatrix()[row ,i_Column] != i_Sign)
                 {
                     isColumnSequence = false;
                     break;
@@ -174,7 +174,7 @@ namespace Ex02_Logic
 
             for(int i = 0; i < m_Board.GetBoardSize(); ++i)
             {
-                if(m_Board.GetMatrix()[i][i] != i_Sign)
+                if(m_Board.GetMatrix()[i,i] != i_Sign)
                 {
                     isMainDiagonalSequence = false;
                     break;
@@ -190,7 +190,7 @@ namespace Ex02_Logic
 
             for(int i = 0; i < m_Board.GetBoardSize(); ++i)
             {
-                if(m_Board.GetMatrix()[i][m_Board.GetBoardSize() - 1 - i] != i_Sign)
+                if(m_Board.GetMatrix()[i, m_Board.GetBoardSize() - 1 - i] != i_Sign)
                 {
                     isSecondaryDiagonalSequence = false;
                     break;
