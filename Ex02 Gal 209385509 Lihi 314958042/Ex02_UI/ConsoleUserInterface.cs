@@ -6,70 +6,10 @@ namespace Ex02_UI
 {
     public class ConsoleUserInterface
     {
-        private const int k_LowerBound = 3;
-        private const int k_UpperBound = 9;
         private const int k_MinCoordinate = 1;
-        private const string k_Quit = "Q";
-        private readonly Game? r_Game;
-
-        private static bool getInitialSettings(out int o_BoardSize, out bool o_IsVsComputer)
-        {
-            bool isValidBoardSize = false;
-            bool isValidIsVsComputer = false;
-            bool didUserQuit = false;
-
-            o_BoardSize = 0;
-            o_IsVsComputer = false;
-            while(!isValidBoardSize)
-            {
-                Console.WriteLine($"Enter board size between {k_LowerBound} and {k_UpperBound}: ");
-                string userInput = Console.ReadLine();
-
-                if(userInput == k_Quit)
-                {
-                    didUserQuit = true;
-                    break;
-                }
-
-                isValidBoardSize = int.TryParse(userInput, out o_BoardSize) && k_LowerBound <= o_BoardSize && o_BoardSize <= k_UpperBound;
-                if(!isValidBoardSize)
-                {
-                    Console.WriteLine("Invalid board size!");
-                }
-            }
-
-            if(!didUserQuit)
-            {
-                while(!isValidIsVsComputer)
-                {
-                    Console.WriteLine("Would you like to play against the computer? (yes/no): ");
-                    string userInput = Console.ReadLine();
-
-                    if(userInput == k_Quit)
-                    {
-                        didUserQuit = true;
-                        break;
-                    }
-
-                    if(userInput == "yes")
-                    {
-                        o_IsVsComputer = true;
-                        isValidIsVsComputer = true;
-                    }
-                    else if(userInput == "no")
-                    {
-                        o_IsVsComputer = false;
-                        isValidIsVsComputer = true;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid answer!");
-                    }
-                }
-            }
-
-            return didUserQuit;
-        }
+        private readonly string r_Quit;
+        private bool didUserQuitWhenSetup;
+        private readonly Game r_Game;
 
         private void printBoard()
         {
@@ -139,10 +79,10 @@ namespace Ex02_UI
 
             while(!isCoordinateValid && !didUserQuit)
             {
-                Console.WriteLine($"Enter {i_CoordinateName} or '{k_Quit}' to quit: ");
+                Console.WriteLine($"Enter {i_CoordinateName} or '{r_Quit}' to quit: ");
                 string userInput = Console.ReadLine();
 
-                if(userInput == k_Quit)
+                if(userInput == r_Quit)
                 {
                     didUserQuit = true;
                 }
@@ -210,7 +150,7 @@ namespace Ex02_UI
                     isValidInput = true;
                     r_Game.StartNewGame();
                 }
-                else if(userInput == "no" || userInput == k_Quit)
+                else if(userInput == "no" || userInput == r_Quit)
                 {
                     wantsToContinue = false;
                     isValidInput = true;
@@ -253,30 +193,17 @@ namespace Ex02_UI
             printBoard();
         }
 
-        public ConsoleUserInterface()
+        public ConsoleUserInterface(string i_QuitSymbol, int i_BoardSize, bool i_IsVsComputer)
         {
-            bool didUserQuitSetup = getInitialSettings(out int boardSize, out bool isVsComputer);
-            
-            if (!didUserQuitSetup)
-            {
-                r_Game = new Game(boardSize, isVsComputer);
-            }
-            else
-            {
-                r_Game = null;
-            }
+            r_Quit = i_QuitSymbol;
+            r_Game = new Game(i_BoardSize, i_IsVsComputer);
+            r_Game.StartNewGame();
         }
 
         public void RunGame()
         {
-            if (r_Game == null)
-            {
-                return;
-            }
-            
             bool playAnotherRound = true;
-
-            r_Game.StartNewGame();
+            
             while(playAnotherRound)
             {
                 playSingleRound();

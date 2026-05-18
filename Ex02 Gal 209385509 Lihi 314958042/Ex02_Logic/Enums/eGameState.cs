@@ -2,7 +2,6 @@
 {
     public enum eGameState
     {
-        NotInitialized,
         Playing,
         Player1Won,
         Player2Won,

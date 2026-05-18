@@ -17,7 +17,6 @@ namespace Ex02_Logic
             m_Player1 = new Player(eCellSign.Cross, false);
             m_Player2 = new Player(eCellSign.Circle, i_IsPlayerComputer);
             m_CurrentPlayer = m_Player1;
-            m_GameState = eGameState.NotInitialized;
         }
 
         public void StartNewGame()

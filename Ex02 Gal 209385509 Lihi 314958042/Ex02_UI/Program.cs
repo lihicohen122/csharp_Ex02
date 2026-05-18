@@ -4,7 +4,11 @@
     {
         public static void Main()
         {
-            new ConsoleUserInterface().RunGame();
+            if(ConfigurationUserInterface.TryGetGameConfiguration(out int boardSize, out bool isVsComputer))
+            {
+                new ConsoleUserInterface(ConfigurationUserInterface.GetQuitSymbol(), boardSize, isVsComputer)
+                    .RunGame();
+            }
         }
     }
 }
