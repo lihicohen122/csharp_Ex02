@@ -12,7 +12,7 @@ namespace Ex02_UI
 
         private void printBoard()
         {
-            int boardSize = r_Game.GetCurrentGameBoardSize();
+            int boardSize = r_Game.BoardSize;
             
             Ex02.ConsoleUtils.Screen.Clear();
             Console.Write("  ");
@@ -74,8 +74,8 @@ namespace Ex02_UI
         {
             bool isCoordinateValid = false;
             bool didUserQuit = false;
-            o_Coordinate = 0;
 
+            o_Coordinate = 0;
             while(!isCoordinateValid && !didUserQuit)
             {
                 Console.WriteLine($"Enter {i_CoordinateName} or '{r_Quit}' to quit: ");
@@ -87,8 +87,8 @@ namespace Ex02_UI
                 }
                 else
                 {
-                    isCoordinateValid = int.TryParse(userInput, out o_Coordinate) && k_MinCoordinate <= o_Coordinate && o_Coordinate <= r_Game.GetCurrentGameBoardSize();
-                    if (!isCoordinateValid)
+                    isCoordinateValid = int.TryParse(userInput, out o_Coordinate) && k_MinCoordinate <= o_Coordinate && o_Coordinate <= r_Game.BoardSize;
+                    if(!isCoordinateValid)
                     {
                         Console.WriteLine($"Invalid number! Please enter a valid {i_CoordinateName} number.");
                     }
@@ -170,7 +170,7 @@ namespace Ex02_UI
             while(!isGameOver)
             {
                 printBoard();
-                if(r_Game.IsCurrentPlayerComputer())
+                if(r_Game.IsCurrentPlayerComputer)
                 {
                     r_Game.PlayComputerTurn();
                 }
@@ -186,7 +186,7 @@ namespace Ex02_UI
                     }
                 }
                 
-                isGameOver = r_Game.GetGameState() != eGameState.Playing;
+                isGameOver = r_Game.GameState != eGameState.Playing;
             }
             
             printBoard();
@@ -206,8 +206,7 @@ namespace Ex02_UI
             while(playAnotherRound)
             {
                 playSingleRound();
-                
-                if (r_Game.GetGameState() == eGameState.Quit)
+                if (r_Game.GameState == eGameState.Quit)
                 {
                     break;
                 }

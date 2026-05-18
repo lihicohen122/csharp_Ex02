@@ -16,14 +16,14 @@ namespace Ex02_Logic
             r_Random = new Random();
         }
         
-        public void GetBestMove(Board i_CurrentBoard, eCellSign i_ComputerSign, eCellSign i_HumanSign, out int o_BestRow, out int o_BestColumn)
+        public void StartMonteCarloTreeSearchAlgorithm(Board i_CurrentBoard, eCellSign i_ComputerSign, eCellSign i_HumanSign, out int o_BestRow, out int o_BestColumn)
         {
-            int bestScore = int.MinValue; // CHANGE MAYBE TO NULLABLE ON INT?
-            int boardSize = i_CurrentBoard.GetBoardSize();
-            
+            int bestScore = int.MinValue;
+            int boardSize = i_CurrentBoard.BoardSize;
+            Board simulatedBoard = i_CurrentBoard.CloneBoard();
+
             o_BestRow = -1;
             o_BestColumn = -1;
-
             for(int row = 0; row < boardSize; ++row)
             {
                 for(int column = 0; column < boardSize; ++column)
@@ -31,12 +31,14 @@ namespace Ex02_Logic
                     if(i_CurrentBoard.GetCell(row, column) == eCellSign.Empty)
                     {
                         int currentMoveScore = 0;
-                        for(int sim = 0; sim < k_SimulationsPerMove; ++sim)
+
+                        for(int simulation = 0; simulation < k_SimulationsPerMove; ++simulation)
                         {
-                            currentMoveScore += simulateSinglePlayout(cloneBoard(i_CurrentBoard), row, column, i_ComputerSign, i_HumanSign);
+                            simulatedBoard.RestoreState(i_CurrentBoard);
+                            currentMoveScore += simulateSinglePlayRound(simulatedBoard, row, column, i_ComputerSign, i_HumanSign);
                         }
 
-                        if (currentMoveScore > bestScore)
+                        if(currentMoveScore > bestScore)
                         {
                             bestScore = currentMoveScore;
                             o_BestRow = row;
@@ -47,7 +49,7 @@ namespace Ex02_Logic
             }
         }
 
-        private int simulateSinglePlayout(Board i_SimulatedBoard, int i_FirstMoveRow, int i_FirstMoveColumn, eCellSign i_ComputerSign, eCellSign i_HumanSign)
+        private int simulateSinglePlayRound(Board i_SimulatedBoard, int i_FirstMoveRow, int i_FirstMoveColumn, eCellSign i_ComputerSign, eCellSign i_HumanSign)
         {
             int playoutScore = 0;
             
@@ -70,14 +72,7 @@ namespace Ex02_Logic
 
                     if (isGameOver)
                     {
-                        if (currentTurnSign == i_HumanSign)
-                        {
-                            playoutScore = k_WinWeight;
-                        }
-                        else
-                        {
-                            playoutScore = k_LoseWeight;
-                        }
+                        playoutScore = currentTurnSign == i_HumanSign ? k_WinWeight : k_LoseWeight;
                     }
                     else
                     {
@@ -94,41 +89,20 @@ namespace Ex02_Logic
             return playoutScore;
         }
 
-        private Board cloneBoard(Board i_OriginalBoard) // MOVE LATER TO BOARD CLASS + ALSO THINK ABOUT FOREACH
-        {
-            int size = i_OriginalBoard.GetBoardSize();
-            Board clonedBoard = new Board(size);
-
-            for(int row = 0; row < size; ++row)
-            {
-                for(int column = 0; column < size; ++column)
-                {
-                    eCellSign currentSign = i_OriginalBoard.GetCell(row, column);
-                    
-                    if(currentSign != eCellSign.Empty)
-                    {
-                        clonedBoard.UpdateCell(row, column, currentSign);
-                    }
-                }
-            }
-
-            return clonedBoard;
-        }
-
         private void getRandomEmptyCell(Board i_Board, out int o_Row, out int o_Column)
         {
-            int emptyCellsCount = i_Board.GetNumberOfEmptyCells();
+            int emptyCellsCount = i_Board.NumberOfEmptyCells;
             int randomEmptyIndex = r_Random.Next(0, emptyCellsCount);
             int currentEmptyCount = 0;
-            int size = i_Board.GetBoardSize();
+            int boardSize = i_Board.BoardSize;
             bool isFound = false;
 
             o_Row = -1;
             o_Column = -1;
 
-            for (int row = 0; row < size && !isFound; ++row)
+            for (int row = 0; row < boardSize && !isFound; ++row)
             {
-                for (int column = 0; column < size && !isFound; ++column)
+                for (int column = 0; column < boardSize && !isFound; ++column)
                 {
                     if (i_Board.GetCell(row, column) == eCellSign.Empty)
                     {

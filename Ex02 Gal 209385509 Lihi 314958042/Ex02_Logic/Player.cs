@@ -15,19 +15,28 @@ namespace Ex02_Logic
             m_Score = 0;
         }
 
-        public eCellSign GetPlayerSign()
+        public eCellSign PlayerSign
         {
-            return r_Sign;
+            get
+            {
+                return r_Sign;
+            }
         }
 
-        public int GetPlayerScore()
+        public int PlayerScore
         {
-            return m_Score; 
+            get
+            {
+                return m_Score;
+            }
         }
 
-        public bool IsPlayerComputer()
+        public bool IsPlayerComputer
         {
-            return r_IsComputer;
+            get
+            {
+                return r_IsComputer;
+            }
         }
 
         public void IncrementPlayerScore()

@@ -17,7 +17,7 @@ namespace Ex02_UI
         {
             bool isSetupSuccessful = tryGetBoardSize(out o_BoardSize);
 
-            if (isSetupSuccessful)
+            if(isSetupSuccessful)
             {
                 isSetupSuccessful = tryGetIsVsComputer(out o_IsVsComputer);
             }
@@ -32,9 +32,9 @@ namespace Ex02_UI
         private static bool tryGetBoardSize(out int o_BoardSize)
         {
             bool isValidBoardSize = false;
-            o_BoardSize = 0;
 
-            while (!isValidBoardSize)
+            o_BoardSize = 0;
+            while(!isValidBoardSize)
             {
                 Console.WriteLine($"Enter board size between {k_LowerBound} and {k_UpperBound}: ");
                 string userInput = Console.ReadLine();
@@ -57,9 +57,9 @@ namespace Ex02_UI
         private static bool tryGetIsVsComputer(out bool o_IsVsComputer)
         {
             bool isValidIsVsComputer = false;
-            o_IsVsComputer = false;
 
-            while (!isValidIsVsComputer)
+            o_IsVsComputer = false;
+            while(!isValidIsVsComputer)
             {
                 Console.WriteLine("Would you like to play against the computer? (yes/no): ");
                 string userInput = Console.ReadLine();
@@ -69,12 +69,12 @@ namespace Ex02_UI
                     break;
                 }
 
-                if (userInput == "yes")
+                if(userInput == "yes")
                 {
                     o_IsVsComputer = true;
                     isValidIsVsComputer = true;
                 }
-                else if (userInput == "no")
+                else if(userInput == "no")
                 {
                     o_IsVsComputer = false;
                     isValidIsVsComputer = true;
@@ -92,6 +92,5 @@ namespace Ex02_UI
         {
             return i_UserInput == k_Quit;
         }
-
     }
 }
