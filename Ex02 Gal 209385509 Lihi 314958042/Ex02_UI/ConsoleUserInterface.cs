@@ -8,7 +8,6 @@ namespace Ex02_UI
     {
         private const int k_MinCoordinate = 1;
         private readonly string r_Quit;
-        private bool didUserQuitWhenSetup;
         private readonly Game r_Game;
 
         private void printBoard()

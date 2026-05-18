@@ -15,61 +15,83 @@ namespace Ex02_UI
 
         public static bool TryGetGameConfiguration(out int o_BoardSize, out bool o_IsVsComputer)
         {
-            bool isValidBoardSize = false;
-            bool isValidIsVsComputer = false;
-            bool didUserQuitWhenSetup = false;
+            bool isSetupSuccessful = tryGetBoardSize(out o_BoardSize);
 
+            if (isSetupSuccessful)
+            {
+                isSetupSuccessful = tryGetIsVsComputer(out o_IsVsComputer);
+            }
+            else
+            {
+                o_IsVsComputer = false;
+            }
+
+            return isSetupSuccessful;
+        }
+
+        private static bool tryGetBoardSize(out int o_BoardSize)
+        {
+            bool isValidBoardSize = false;
             o_BoardSize = 0;
-            o_IsVsComputer = false;
-            while(!isValidBoardSize)
+
+            while (!isValidBoardSize)
             {
                 Console.WriteLine($"Enter board size between {k_LowerBound} and {k_UpperBound}: ");
                 string userInput = Console.ReadLine();
 
-                if(userInput == k_Quit)
+                if(isQuitCommand(userInput))
                 {
-                    didUserQuitWhenSetup = true;
                     break;
                 }
 
                 isValidBoardSize = int.TryParse(userInput, out o_BoardSize) && k_LowerBound <= o_BoardSize && o_BoardSize <= k_UpperBound;
-                if(!isValidBoardSize)
+                if (!isValidBoardSize)
                 {
                     Console.WriteLine("Invalid board size!");
                 }
             }
 
-            if(!didUserQuitWhenSetup)
+            return isValidBoardSize;
+        }
+
+        private static bool tryGetIsVsComputer(out bool o_IsVsComputer)
+        {
+            bool isValidIsVsComputer = false;
+            o_IsVsComputer = false;
+
+            while (!isValidIsVsComputer)
             {
-                while(!isValidIsVsComputer)
+                Console.WriteLine("Would you like to play against the computer? (yes/no): ");
+                string userInput = Console.ReadLine();
+
+                if(isQuitCommand(userInput))
                 {
-                    Console.WriteLine("Would you like to play against the computer? (yes/no): ");
-                    string userInput = Console.ReadLine();
+                    break;
+                }
 
-                    if(userInput == k_Quit)
-                    {
-                        didUserQuitWhenSetup = true;
-                        break;
-                    }
-
-                    if(userInput == "yes")
-                    {
-                        o_IsVsComputer = true;
-                        isValidIsVsComputer = true;
-                    }
-                    else if(userInput == "no")
-                    {
-                        o_IsVsComputer = false;
-                        isValidIsVsComputer = true;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid answer!");
-                    }
+                if (userInput == "yes")
+                {
+                    o_IsVsComputer = true;
+                    isValidIsVsComputer = true;
+                }
+                else if (userInput == "no")
+                {
+                    o_IsVsComputer = false;
+                    isValidIsVsComputer = true;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid answer!");
                 }
             }
 
-            return didUserQuitWhenSetup;
+            return isValidIsVsComputer;
         }
+
+        private static bool isQuitCommand(string i_UserInput)
+        {
+            return i_UserInput == k_Quit;
+        }
+
     }
 }
