@@ -6,8 +6,7 @@
         {
             if(ConfigurationUserInterface.TryGetGameConfiguration(out int boardSize, out bool isVsComputer))
             {
-                new ConsoleUserInterface(ConfigurationUserInterface.GetQuitSymbol(), boardSize, isVsComputer)
-                    .RunGame();
+                new ConsoleUserInterface(ConfigurationUserInterface.GetQuitSymbol(), boardSize, isVsComputer).RunGame();
             }
         }
     }

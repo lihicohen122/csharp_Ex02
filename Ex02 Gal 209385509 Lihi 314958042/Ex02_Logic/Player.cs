@@ -4,7 +4,7 @@ namespace Ex02_Logic
 {
     internal class Player
     {
-        private int m_Score;
+        private uint m_Score;
         private readonly eCellSign r_Sign;
         private readonly bool r_IsComputer;
 
@@ -13,6 +13,11 @@ namespace Ex02_Logic
             r_Sign = i_Sign;
             r_IsComputer = i_IsComputer;
             m_Score = 0;
+        }
+
+        public void IncrementPlayerScore()
+        {
+            ++m_Score;
         }
 
         public eCellSign PlayerSign
@@ -27,7 +32,8 @@ namespace Ex02_Logic
         {
             get
             {
-                return m_Score;
+                int.TryParse(m_Score.ToString(), out int result);
+                return result;
             }
         }
 
@@ -37,11 +43,6 @@ namespace Ex02_Logic
             {
                 return r_IsComputer;
             }
-        }
-
-        public void IncrementPlayerScore()
-        {
-            ++m_Score;
         }
     }
 }

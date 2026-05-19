@@ -87,7 +87,8 @@ namespace Ex02_UI
                 }
                 else
                 {
-                    isCoordinateValid = int.TryParse(userInput, out o_Coordinate) && k_MinCoordinate <= o_Coordinate && o_Coordinate <= r_Game.BoardSize;
+                    isCoordinateValid = int.TryParse(userInput, out o_Coordinate) &&
+                                        k_MinCoordinate <= o_Coordinate && o_Coordinate <= r_Game.BoardSize;
                     if(!isCoordinateValid)
                     {
                         Console.WriteLine($"Invalid number! Please enter a valid {i_CoordinateName} number.");
@@ -108,7 +109,6 @@ namespace Ex02_UI
             while(!isCellEmpty && !didUserQuit)
             {
                 didUserQuit = didUserQuitCoordinateInput("row", out o_Row);
-
                 if(!didUserQuit)
                 {
                     didUserQuit = didUserQuitCoordinateInput("column", out o_Column);
@@ -118,7 +118,7 @@ namespace Ex02_UI
                 {
                     o_Row--;
                     o_Column--;
-                    if (r_Game.GetCellSign(o_Row, o_Column) == eCellSign.Empty)
+                    if(r_Game.GetCellSign(o_Row, o_Column) == eCellSign.Empty)
                     {
                         isCellEmpty = true;
                     }
@@ -206,7 +206,7 @@ namespace Ex02_UI
             while(playAnotherRound)
             {
                 playSingleRound();
-                if (r_Game.GameState == eGameState.Quit)
+                if(r_Game.GameState == eGameState.Quit)
                 {
                     break;
                 }
