@@ -10,6 +10,29 @@ namespace Ex02_UI
         private readonly string r_Quit;
         private readonly Game r_Game;
 
+        private void moveIndicesToZeroBased(ref int io_Row, ref int io_Column)
+        {
+            io_Row--;
+            io_Column--;
+        }
+
+        private void printRoundResult()
+        {
+            string roundEndMessage;
+            
+            if(r_Game.GameState == eGameState.Tie)
+            {
+                roundEndMessage = "DRAW!";
+            }
+            else
+            {
+                string roundWinner = r_Game.GameState == eGameState.Player1Won ? "Player 1" : "Player 2";
+                roundEndMessage = $"{roundWinner} won!";
+            }
+            
+            Console.WriteLine(roundEndMessage.PadLeft((r_Game.BoardSize / 2) + (roundEndMessage.Length / 2)));
+        }
+
         private void printBoard()
         {
             int boardSize = r_Game.BoardSize;
@@ -116,8 +139,7 @@ namespace Ex02_UI
 
                 if(!didUserQuit)
                 {
-                    o_Row--;
-                    o_Column--;
+                    moveIndicesToZeroBased(ref o_Row, ref o_Column);
                     if(r_Game.GetCellSign(o_Row, o_Column) == eCellSign.Empty)
                     {
                         isCellEmpty = true;
@@ -151,7 +173,6 @@ namespace Ex02_UI
                 }
                 else if(userInput == "no" || userInput == r_Quit)
                 {
-                    wantsToContinue = false;
                     isValidInput = true;
                 }
                 else
@@ -188,7 +209,8 @@ namespace Ex02_UI
                 
                 isGameOver = r_Game.GameState != eGameState.Playing;
             }
-            
+
+            printRoundResult();
             printBoard();
         }
 

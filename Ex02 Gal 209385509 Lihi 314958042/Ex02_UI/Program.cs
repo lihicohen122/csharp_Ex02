@@ -4,9 +4,10 @@
     {
         public static void Main()
         {
-            if(ConfigurationUserInterface.TryGetGameConfiguration(out int boardSize, out bool isVsComputer))
+            StartupMenu menu = new StartupMenu();
+            if(menu.TryGetGameConfiguration(out int boardSize, out bool isVsComputer))
             {
-                new ConsoleUserInterface(ConfigurationUserInterface.GetQuitSymbol(), boardSize, isVsComputer).RunGame();
+                new ConsoleUserInterface(menu.GetQuitSymbol(), boardSize, isVsComputer).RunGame();
             }
         }
     }

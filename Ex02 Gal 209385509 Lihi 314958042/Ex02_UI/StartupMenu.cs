@@ -2,13 +2,13 @@ using System;
 
 namespace Ex02_UI
 {
-    public class ConfigurationUserInterface
+    public class StartupMenu
     {
         private const int k_LowerBound = 3;
         private const int k_UpperBound = 9;
         private const string k_Quit = "Q";
 
-        private static bool tryGetIsVsComputer(out bool o_IsVsComputer)
+        private bool tryGetIsVsComputer(out bool o_IsVsComputer)
         {
             bool isValidIsVsComputer = false;
 
@@ -42,12 +42,12 @@ namespace Ex02_UI
             return isValidIsVsComputer;
         }
 
-        private static bool isQuitCommand(string i_UserInput)
+        private bool isQuitCommand(string i_UserInput)
         {
             return i_UserInput == k_Quit;
         }
 
-        private static bool tryGetBoardSize(out int o_BoardSize)
+        private bool tryGetBoardSize(out int o_BoardSize)
         {
             bool isValidBoardSize = false;
 
@@ -72,12 +72,12 @@ namespace Ex02_UI
             return isValidBoardSize;
         }
 
-        public static string GetQuitSymbol()
+        public string GetQuitSymbol()
         {
             return k_Quit;
         }
 
-        public static bool TryGetGameConfiguration(out int o_BoardSize, out bool o_IsVsComputer)
+        public bool TryGetGameConfiguration(out int o_BoardSize, out bool o_IsVsComputer)
         {
             bool isSetupSuccessful = tryGetBoardSize(out o_BoardSize);
 
