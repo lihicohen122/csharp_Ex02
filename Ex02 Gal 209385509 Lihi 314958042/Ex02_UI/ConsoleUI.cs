@@ -7,6 +7,7 @@ namespace Ex02_UI
     public class ConsoleUI
     {
         private const int k_MinCoordinate = 1;
+        private const int k_InitialValue = 0;
         private readonly string r_Quit;
         private readonly Game r_Game;
 
@@ -101,7 +102,7 @@ namespace Ex02_UI
             bool isCoordinateValid = false;
             bool didUserQuit = false;
 
-            o_Coordinate = 0;
+            o_Coordinate = k_InitialValue;
             while(!isCoordinateValid && !didUserQuit)
             {
                 Console.WriteLine($"Enter {i_CoordinateName} or '{r_Quit}' to quit: ");
@@ -130,8 +131,8 @@ namespace Ex02_UI
             bool isCellEmpty = false;
             bool didUserQuit = false;
 
-            o_Row = 0;
-            o_Column = 0;
+            o_Row = k_InitialValue;
+            o_Column = k_InitialValue;
             while(!isCellEmpty && !didUserQuit)
             {
                 didUserQuit = didUserQuitCoordinateInput("row", out o_Row);
