@@ -122,6 +122,11 @@ namespace Ex02_Logic
             return playersScore;
         }
 
+        public bool IsComputerExistsInGame()
+        {
+            return r_ComputerAI == null;
+        }
+
         public eGameState GameState
         {
             get

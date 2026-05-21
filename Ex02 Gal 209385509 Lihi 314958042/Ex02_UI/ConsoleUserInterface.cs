@@ -22,11 +22,11 @@ namespace Ex02_UI
             
             if(r_Game.GameState == eGameState.Tie)
             {
-                roundEndMessage = "DRAW!";
+                roundEndMessage = "TIE!";
             }
             else
             {
-                string roundWinner = r_Game.GameState == eGameState.Player1Won ? "Player 1" : "Player 2";
+                string roundWinner = r_Game.GameState == eGameState.Player1Won ? "Player 1" : !r_Game.IsComputerExistsInGame() ? "Player 2" : "Computer";
                 roundEndMessage = $"{roundWinner} won!";
             }
             
@@ -79,17 +79,11 @@ namespace Ex02_UI
         private void printScore()
         {
             int []allPlayersScores = r_Game.GetAllPlayersScore();
+            string otherPlayerType = !r_Game.IsComputerExistsInGame() ? "Player 2" : "Computer";
             
-            for(int i = 0; i < allPlayersScores.Length; ++i)
-            {
-                int playerScore = allPlayersScores[i];
-                
-                Console.Write($"Player {i + 1} score: {playerScore}");
-                if(i < allPlayersScores.Length - 1)
-                {
-                    Console.Write(" | ");
-                }
-            }
+            Console.Write($"Player 1 score: {allPlayersScores[0]}");
+            Console.Write(" | ");
+            Console.Write($"{otherPlayerType} score: {allPlayersScores[0]}");
             Console.WriteLine();
         }
 
