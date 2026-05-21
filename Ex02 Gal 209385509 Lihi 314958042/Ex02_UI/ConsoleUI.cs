@@ -54,8 +54,8 @@ namespace Ex02_UI
                 for(int column = 0; column < boardSize; ++column)
                 {
                     char signToPrint = ' ';
-
                     eCellSign currentSign = r_Game.GetCellSign(row, column);
+                    
                     if(currentSign == eCellSign.Cross)
                     {
                         signToPrint = 'X';
