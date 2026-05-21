@@ -124,7 +124,7 @@ namespace Ex02_Logic
 
         public bool IsComputerExistsInGame()
         {
-            return r_ComputerAI == null;
+            return r_ComputerAI != null;
         }
 
         public eGameState GameState

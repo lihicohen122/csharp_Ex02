@@ -83,7 +83,7 @@ namespace Ex02_UI
             
             Console.Write($"Player 1 score: {allPlayersScores[0]}");
             Console.Write(" | ");
-            Console.Write($"{otherPlayerType} score: {allPlayersScores[0]}");
+            Console.Write($"{otherPlayerType} score: {allPlayersScores[1]}");
             Console.WriteLine();
         }
 
@@ -153,6 +153,7 @@ namespace Ex02_UI
             bool isValidInput = false;
             bool wantsToContinue = false;
             
+            printRoundResult();
             printScore();
             while(!isValidInput)
             {
@@ -204,7 +205,6 @@ namespace Ex02_UI
                 isGameOver = r_Game.GameState != eGameState.Playing;
             }
 
-            printRoundResult();
             printBoard();
         }
 
