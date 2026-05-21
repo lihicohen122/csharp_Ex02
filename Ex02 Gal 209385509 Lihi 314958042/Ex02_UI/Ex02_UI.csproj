@@ -37,7 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="StartupMenu.cs" />
-    <Compile Include="ConsoleUserInterface.cs" />
+    <Compile Include="ConsoleUI.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
