@@ -18,7 +18,7 @@ namespace Ex02_UI
 
         private void printRoundResult()
         {
-            string roundEndMessage;
+            string roundEndMessage = string.Empty;
             
             if(r_Game.GameState == eGameState.Tie)
             {
@@ -30,7 +30,10 @@ namespace Ex02_UI
                 roundEndMessage = $"{roundWinner} won!";
             }
             
-            Console.WriteLine(roundEndMessage.PadLeft((r_Game.BoardSize / 2) + (roundEndMessage.Length / 2)));
+            int screenWidth = 2 + (r_Game.BoardSize * 4);
+            int leftPaddingTotalLength = (screenWidth / 2) + (roundEndMessage.Length / 2);
+            
+            Console.WriteLine(roundEndMessage.PadLeft(leftPaddingTotalLength));
         }
 
         private void printBoard()
@@ -80,10 +83,11 @@ namespace Ex02_UI
         {
             int []allPlayersScores = r_Game.GetAllPlayersScore();
             string otherPlayerType = !r_Game.IsComputerExistsInGame() ? "Player 2" : "Computer";
+            string scoreMessage = $"Player 1 score: {allPlayersScores[0]} | {otherPlayerType} score: {allPlayersScores[1]}";
+            int screenWidth = 2 + (r_Game.BoardSize * 4);
+            int leftPaddingTotalLength = (screenWidth / 2) + (scoreMessage.Length / 2);
             
-            Console.Write($"Player 1 score: {allPlayersScores[0]}");
-            Console.Write(" | ");
-            Console.Write($"{otherPlayerType} score: {allPlayersScores[1]}");
+            Console.WriteLine(scoreMessage.PadLeft(leftPaddingTotalLength));
             Console.WriteLine();
         }
 
