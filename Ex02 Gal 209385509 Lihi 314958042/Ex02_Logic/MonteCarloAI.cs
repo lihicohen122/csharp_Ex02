@@ -19,7 +19,7 @@ namespace Ex02_Logic
             i_SimulatedBoard.TryUpdateCell(i_FirstMoveRow, i_FirstMoveColumn, i_ComputerSign);
             bool isGameOver = i_SimulatedBoard.CheckWinningSequence(i_FirstMoveRow, i_FirstMoveColumn, i_ComputerSign);
 
-            if (isGameOver)
+            if(isGameOver)
             {
                 playoutScore = k_LoseWeight;
             }
@@ -27,12 +27,12 @@ namespace Ex02_Logic
             {
                 eCellSign currentTurnSign = i_HumanSign;
 
-                while (!isGameOver && !i_SimulatedBoard.IsBoardFull())
+                while(!isGameOver && !i_SimulatedBoard.IsBoardFull())
                 {
                     getRandomEmptyCell(i_SimulatedBoard, out int randomRow, out int randomColumn);
                     i_SimulatedBoard.TryUpdateCell(randomRow, randomColumn, currentTurnSign);
                     isGameOver = i_SimulatedBoard.CheckWinningSequence(randomRow, randomColumn, currentTurnSign);
-                    if (isGameOver)
+                    if(isGameOver)
                     {
                         playoutScore = currentTurnSign == i_HumanSign ? k_WinWeight : k_LoseWeight;
                     }
@@ -42,7 +42,7 @@ namespace Ex02_Logic
                     }
                 }
 
-                if (!isGameOver && i_SimulatedBoard.IsBoardFull())
+                if(!isGameOver && i_SimulatedBoard.IsBoardFull())
                 {
                     playoutScore = k_TieWeight;
                 }
@@ -61,13 +61,13 @@ namespace Ex02_Logic
 
             o_Row = -1;
             o_Column = -1;
-            for (int row = 0; row < boardSize && !isFound; ++row)
+            for(int row = 0; row < boardSize && !isFound; ++row)
             {
-                for (int column = 0; column < boardSize && !isFound; ++column)
+                for(int column = 0; column < boardSize && !isFound; ++column)
                 {
-                    if (i_Board.GetCell(row, column) == eCellSign.Empty)
+                    if(i_Board.GetCell(row, column) == eCellSign.Empty)
                     {
-                        if (currentEmptyCount == randomEmptyIndex)
+                        if(currentEmptyCount == randomEmptyIndex)
                         {
                             o_Row = row;
                             o_Column = column;
