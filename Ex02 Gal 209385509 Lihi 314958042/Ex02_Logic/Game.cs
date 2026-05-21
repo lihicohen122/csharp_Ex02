@@ -7,9 +7,9 @@ namespace Ex02_Logic
         private readonly Board r_Board;
         private readonly Player r_Player1;
         private readonly Player r_Player2;
+        private readonly MonteCarloAI r_ComputerAI;
         private Player m_CurrentPlayer;
         private eGameState m_GameState;
-        private readonly MonteCarloAI r_ComputerAI;
 
         private eCellSign getOtherPlayerSign()
         {
