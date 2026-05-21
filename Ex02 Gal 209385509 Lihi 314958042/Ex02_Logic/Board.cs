@@ -147,6 +147,7 @@ namespace Ex02_Logic
                 for(int column = 0; column < r_BoardSize; ++column)
                 {
                     eCellSign currentSign = GetCell(row, column);
+                    
                     if(currentSign != eCellSign.Empty)
                     {
                         clonedBoard.TryUpdateCell(row, column, currentSign);
