@@ -80,7 +80,7 @@ namespace Ex02_UI
 
         private void printScore()
         {
-            int []allPlayersScores = r_Game.GetAllPlayersScore();
+            int[] allPlayersScores = r_Game.GetAllPlayersScore();
             string otherPlayerType = !r_Game.IsComputerExistsInGame() ? "Player 2" : "Computer";
             string scoreMessage = $"Player 1 score: {allPlayersScores[0]} | {otherPlayerType} score: {allPlayersScores[1]}";
             int leftPaddingTotalLength = calculateLeftPadding(scoreMessage);

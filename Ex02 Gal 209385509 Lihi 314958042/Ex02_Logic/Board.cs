@@ -28,9 +28,9 @@ namespace Ex02_Logic
         {
             bool isRowSequence = true;
 
-            for (int column = 0; column < r_BoardSize; ++column)
+            for(int column = 0; column < r_BoardSize; ++column)
             {
-                if (r_Matrix[i_Row, column] != i_Sign)
+                if(r_Matrix[i_Row, column] != i_Sign)
                 {
                     isRowSequence = false;
                     break;
@@ -44,9 +44,9 @@ namespace Ex02_Logic
         {
             bool isColumnSequence = true;
 
-            for (int row = 0; row < r_BoardSize; ++row)
+            for(int row = 0; row < r_BoardSize; ++row)
             {
-                if (r_Matrix[row, i_Column] != i_Sign)
+                if(r_Matrix[row, i_Column] != i_Sign)
                 {
                     isColumnSequence = false;
                     break;
@@ -60,9 +60,9 @@ namespace Ex02_Logic
         {
             bool isMainDiagonalSequence = true;
 
-            for (int i = 0; i < r_BoardSize; ++i)
+            for(int i = 0; i < r_BoardSize; ++i)
             {
-                if (r_Matrix[i, i] != i_Sign)
+                if(r_Matrix[i, i] != i_Sign)
                 {
                     isMainDiagonalSequence = false;
                     break;
@@ -76,9 +76,9 @@ namespace Ex02_Logic
         {
             bool isSecondaryDiagonalSequence = true;
 
-            for (int i = 0; i < r_BoardSize; ++i)
+            for(int i = 0; i < r_BoardSize; ++i)
             {
-                if (r_Matrix[i, r_BoardSize - 1 - i] != i_Sign)
+                if(r_Matrix[i, r_BoardSize - 1 - i] != i_Sign)
                 {
                     isSecondaryDiagonalSequence = false;
                     break;
